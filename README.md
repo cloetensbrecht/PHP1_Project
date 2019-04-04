@@ -2,7 +2,7 @@
 
 TEAM: Kasper Okens, Saul Wauters, Eleni Bosschaerts, Senne Mommens
 
-PROJECTNAAM: tcb 
+PROJECTNAAM:  
 
 GIT: [github.com/EleniBosschaerts/PHP1_Project](github.com/EleniBosschaerts/PHP1_Project)
 
