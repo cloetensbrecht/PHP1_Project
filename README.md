@@ -23,25 +23,25 @@ https://docs.google.com/spreadsheets/d/1Jg5-lV6Ug96BHOgkxUBrRYL0mYY-lmqoigQmg-z_
 ## Deadlines
 ### Deadline 1: 11 april 2019
 #### features 1 + 2 + 3 + 4
-⋅⋅*Werk views netjes uit
+⋅⋅⋅ - Werk views netjes uit
 
-⋅⋅*Gebruik trello + GIT
+ Gebruik trello + GIT
 
-⋅⋅*Iedereen in het team kan in een Demo or Die sessie tijdens de les het opgeleverde werk tonen én uitleggen op eigen laptop
+ Iedereen in het team kan in een Demo or Die sessie tijdens de les het opgeleverde werk tonen én uitleggen op eigen laptop
 
-⋅⋅*Evalueer vlak na de deadline al uw teamleden via https://goo.gl/forms/mPgaw9AMvfDBIwdI2
+ Evalueer vlak na de deadline al uw teamleden via https://goo.gl/forms/mPgaw9AMvfDBIwdI2
 
 ### Deadline 2: 25 april 2019
 ####Features 5 + 6 + 7 + 8 + 9
-⋅⋅*trello+GIT+Demo or Die idem als deadline 1
-⋅⋅*Evalueer vlak na de deadline al uw teamleden via https://goo.gl/forms/mPgaw9AMvfDBIwdI2
+ trello+GIT+Demo or Die idem als deadline 1
+ Evalueer vlak na de deadline al uw teamleden via https://goo.gl/forms/mPgaw9AMvfDBIwdI2
 
 ### Deadline 3: 2 mei 2019
-⋅⋅*features 10 + 11 + 12 + 13 + 14
-⋅⋅*Werk views netjes uit
-⋅⋅*Gebruik trello + GIT / In Trello moet in één oogopslag duidelijk zijn wie welke taak heeft uitgewerkt of nog moet uitwerken. Hou jullie Trello-boards up to date
-⋅⋅*Iedereen in het team kan in een Demo or Die sessie tijdens de les het opgeleverde werk tonen én uitleggen op eigen laptop
-⋅⋅*Evalueer vlak na de deadline al uw teamleden via https://goo.gl/forms/mPgaw9AMvfDBIwdI2
+ features 10 + 11 + 12 + 13 + 14
+ Werk views netjes uit
+ Gebruik trello + GIT / In Trello moet in één oogopslag duidelijk zijn wie welke taak heeft uitgewerkt of nog moet uitwerken. Hou jullie Trello-boards up to date
+ Iedereen in het team kan in een Demo or Die sessie tijdens de les het opgeleverde werk tonen én uitleggen op eigen laptop
+ Evalueer vlak na de deadline al uw teamleden via https://goo.gl/forms/mPgaw9AMvfDBIwdI2
 ### Deadline 4: 9 mei 2019
 ⋅⋅*features 15 + 16 + 17 + 18 + 19 + 20
 ⋅⋅*Werk views netjes uit
