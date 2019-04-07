@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<?php 
+
+?><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,6 +10,6 @@
     <title>Inspiration Hunter</title>
 </head>
 <body>
-    
+    <h1>Inspiration Hunter</h1>
 </body>
 </html>
