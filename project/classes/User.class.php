@@ -64,7 +64,10 @@
                 catch(Throwable $t ){
                     return $t;
                 } 
-            }    
+            }   else {
+                $error = "Your email is invalid.";
+                        return $error;
+            } 
         }
 
     }
