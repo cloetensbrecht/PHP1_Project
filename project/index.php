@@ -14,6 +14,7 @@
 </head>
 <body>
     <h1>Inspiration Hunter</h1>
+    <p>Dit onderdeel wordt later nog aangevuld.</p>
     <a href="logout.php">Logout</a>
 </body>
 </html>
