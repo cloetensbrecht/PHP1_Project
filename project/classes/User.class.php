@@ -27,16 +27,14 @@
         }
  
         public function getPassword(){
-                return $this->password;
+            return $this->password;
         }
 
         public function getPasswordConfirmation(){
-                return $this->passwordConfirmation;
+            return $this->passwordConfirmation;
         }
 
         public function canLogin(){
-            $error = "test";
-           
                 try{
                     $conn = new PDO("mysql:host=localhost;dbname=InspirationHunter", "root", "root");
                     $statement = $conn->prepare("SELECT password FROM users WHERE email= :email;");
@@ -44,8 +42,13 @@
                     $statement->execute();
                     $result = $statement->fetch(PDO::FETCH_ASSOC);
 
-                    $error = "WORKS";
-                    if(password_verify($this->password, $result['password'])){
+                    if($this->password === $result['password']){
+                    // NORMAAL met password_verify 
+                    // MAAR verify hashes created with other functions like crypt()
+                    // kan pas als er een sign in is, met crypt
+                    //if(password_verify($this->password, $result['password'])){
+                        echo "WORKS check ✅";
+
                         $this->id = $result['id'];
                         $_SESSION['id'] = $this->email;
                         header("location: index.php");
