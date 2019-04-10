@@ -40,7 +40,7 @@
         public function canLogin(){
             if(SafetyCheck::isValidEmail($this->email)){
                 try{
-                    $conn = new PDO("mysql:host=localhost;dbname=InspirationHunter", "root", "root");
+                    $conn = Db::getInstance();
                     $statement = $conn->prepare("SELECT password FROM users WHERE email= :email;");
                     $statement->bindParam(":email", $this->email);
                     $statement->execute();
