@@ -34,6 +34,11 @@
             return $this->passwordConfirmation;
         }
 
+
+        // maybe add some code to slow down bruit force attacks  ? 
+        // with sleep ? https://www.php.net/manual/en/function.sleep.php
+
+        
         public function canLogin(){
                 try{
                     $conn = new PDO("mysql:host=localhost;dbname=InspirationHunter", "root", "root");
