@@ -42,6 +42,9 @@ https://docs.google.com/spreadsheets/d/1Jg5-lV6Ug96BHOgkxUBrRYL0mYY-lmqoigQmg-z_
 
 ### Deadline 1: 11 april 2019
 features 1 + 2 + 3 + 4
+
+Done: #2 - inloggen ✅
+
 ! Werk views netjes uit
 
 > Gebruik trello + GIT
