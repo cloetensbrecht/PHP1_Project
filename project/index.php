@@ -11,5 +11,6 @@
 </head>
 <body>
     <h1>Inspiration Hunter</h1>
+    <a href="logout.php">Logout</a>
 </body>
 </html>

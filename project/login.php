@@ -1,4 +1,12 @@
-<!DOCTYPE html>
+<?php 
+    require_once("bootstrap.php");
+
+    if(!empty($_POST)){
+        $user = new User;
+        $user->setEmail($_POST["email"])->setPassword($_POST["password"]);
+        $err = $user->canLogin();
+    }
+?><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -12,7 +20,7 @@
 			<form action="" method="post">
 				<img id="logo" src="#" alt="">
 				<h2 form__title>Login</h2>
-                
+
 				<?php if (isset($error)): ?>
 					<div class="form__error">
 						<p>Sorry, we can't log you in with that email address and password. Can you try again?</p>
