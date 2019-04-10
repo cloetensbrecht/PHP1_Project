@@ -15,6 +15,7 @@
 <body>
     <h1>Inspiration Hunter</h1>
     <p>Dit onderdeel wordt later nog aangevuld.</p>
+    <br>
     <a href="logout.php">Logout</a>
 </body>
 </html>
