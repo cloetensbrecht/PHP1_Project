@@ -34,12 +34,11 @@
             return $this->passwordConfirmation;
         }
 
-
         // maybe add some code to slow down bruit force attacks  ? 
         // with sleep ? https://www.php.net/manual/en/function.sleep.php
 
-        
         public function canLogin(){
+            if(SafetyCheck::isValidEmail($this->email)){
                 try{
                     $conn = new PDO("mysql:host=localhost;dbname=InspirationHunter", "root", "root");
                     $statement = $conn->prepare("SELECT password FROM users WHERE email= :email;");
@@ -65,6 +64,7 @@
                 catch(Throwable $t ){
                     return $t;
                 } 
+            }    
         }
 
     }
