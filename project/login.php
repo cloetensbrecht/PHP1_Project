@@ -1,6 +1,12 @@
 <?php 
-    require_once("bootstrap.php");
+	require_once("bootstrap.php");
+	
+	// session 
+	if(isset($_SESSION["id"])){
+        header("location: index.php");
+	}
 
+	// check mail & pw
     if(!empty($_POST)){
         $user = new User;
         $user->setEmail($_POST["email"])->setPassword($_POST["password"]);
