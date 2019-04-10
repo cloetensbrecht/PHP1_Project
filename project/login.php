@@ -46,7 +46,7 @@
 					<input type="submit" value="Log in!" class="btn btn--primary">
 				</div>
 				<div>
-					<p>No account yet? <a href="register.php"> Sign up first</a></p>
+					<p>No account yet? <a href="signup.php"> Sign up first</a></p>
 				</div>
 			</form>
 		</div>
