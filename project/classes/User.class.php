@@ -45,9 +45,14 @@
                     $result = $statement->fetch(PDO::FETCH_ASSOC);
 
                     $error = "WORKS";
-                    $_SESSION['id'] = $this->email;
-                    header("location: index.php");
-                    
+                    if(password_verify($this->password, $result['password'])){
+                        $this->id = $result['id'];
+                        $_SESSION['id'] = $this->email;
+                        header("location: index.php");
+                    } else{
+                        $error = "Something went wrong, your email or password are wrong. Try again.";
+                        return $error;
+                    }
                 }
                 catch(Throwable $t ){
                     return $t;

@@ -29,7 +29,7 @@
 
 				<?php if (isset($error)): ?>
 					<div class="form__error">
-						<p>Sorry, we can't log you in with that email address and password. Can you try again?</p>
+					<?php echo "⛔️" . $error; ?>
 					</div>
 				<?php endif; ?>
 
