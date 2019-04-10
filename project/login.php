@@ -10,7 +10,7 @@
     if(!empty($_POST)){
         $user = new User;
         $user->setEmail($_POST["email"])->setPassword($_POST["password"]);
-        $err = $user->canLogin();
+        $error = $user->canLogin();
     }
 ?><!DOCTYPE html>
 <html lang="en">
