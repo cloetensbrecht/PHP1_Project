@@ -1,27 +1,28 @@
 <?php
 
-require_once("functions.inc.php");
-    // indien signup
+require_once("bootstrap.php");
+
     if(!empty($_POST)){
-        // veldjes uitlezen
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-        $passwordConfirmation = $_POST['password_confirmation'];
-        
-        if(canRegister($email,$password,$passwordConfirmation)){
-            $conn = @new mysqli("localhost","root","root","InspirationHunter");
-            
-            $password = md5($password);
-            $sql = "INSERT into users(email,password) VALUES ('$email','$password')";
-            $result = $conn->query($sql);
-            if($result){
-                echo "gelukt";
-            }else{
-                echo "misslukt";
-            }
-        }else{
-						//error tonen
-        }
+		$user = new User();
+
+		// GET & SET gegevens formulier
+		$user->setEmail($_POST['email']);
+		$user->setPassword($_POST['password']);
+		$user->setPasswordConfirmation(['password_confirmation']);
+		if($user->register()){
+			session_start();
+			
+			// SESSION adhv email
+			$_SESSION['email'] = $user->getEmail();
+
+
+			// Ga naar feed
+			header('Location: index.php');
+		}
+
+
+		
+
     }
 ?>
 
