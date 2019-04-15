@@ -1,4 +1,7 @@
 <?php 
+
+    require_once('Security.class.php');
+
     class User{
         private $email;
         private $password;
@@ -32,6 +35,26 @@
 
         public function getPasswordConfirmation(){
             return $this->passwordConfirmation;
+        }
+
+        public function register(){
+            $password = Security::hash($this->password);
+
+            try {
+                $conn = Db::getInstance();
+                $statement = $conn->prepare('insert into user (email, password) values (:email, :password);');
+                $statement->bindParam(":email", $this->password);
+                $statement->bindParam(":password", $password);
+                $result = $statement->execute();
+                return $result;
+            }
+
+            catch (Throwable $t) {
+                return false;
+            }
+
+
+
         }
 
         // maybe add some code to slow down bruit force attacks  ? 
