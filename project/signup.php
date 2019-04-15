@@ -2,28 +2,25 @@
 
 require_once("bootstrap.php");
 
-    if(!empty($_POST)){
+  if(!empty($_POST)){
 		$user = new User();
 
 		// GET & SET gegevens formulier
 		$user->setEmail($_POST['email']);
 		$user->setPassword($_POST['password']);
 		$user->setPasswordConfirmation(['password_confirmation']);
+		
 		if($user->register()){
 			session_start();
 			
 			// SESSION adhv email
 			$_SESSION['email'] = $user->getEmail();
 
-
 			// Ga naar feed
 			header('Location: index.php');
 		}
 
-
-		
-
-    }
+  }
 ?>
 
 <html lang="en">

@@ -1,6 +1,6 @@
 <?php 
 
-    require_once('Security.class.php');
+    require_once('Security.class.php'); 
 
     class User{
         private $email;
@@ -39,7 +39,6 @@
 
         public function register(){
             $password = Security::hash($this->password);
-
             try {
                 $conn = Db::getInstance();
                 $statement = $conn->prepare('insert into user (email, password) values (:email, :password);');
@@ -52,9 +51,6 @@
             catch (Throwable $t) {
                 return false;
             }
-
-
-
         }
 
         // maybe add some code to slow down bruit force attacks  ? 
