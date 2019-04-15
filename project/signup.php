@@ -61,6 +61,9 @@ require_once("bootstrap.php");
 				<div class="form__field">
 					<input type="submit" value="Sign me up!" class="btn btn--primary">	
 				</div>
+				<div>
+					<p>Already a account? <a href="login.php"> Login </a></p>
+				</div>
 			</form>
 		</div>
 	</div>
