@@ -46,6 +46,8 @@
                 $statement->bindParam(":password", $password);
                 $result = $statement->execute();
                 return $result;
+
+                // hier nog een session aanmaken ? ipv in signup ? 
             }
 
             catch (Throwable $t) {
@@ -73,7 +75,7 @@
                         echo "WORKS check ✅";
 
                         $this->id = $result['id'];
-                        $_SESSION['id'] = $this->email;
+                        $_SESSION['id'] = $this->email; // session aanmaken 
                         header("location: index.php");
                     } else{
                         $error = "Something went wrong, your email or password are wrong. Try again.";
