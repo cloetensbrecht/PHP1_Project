@@ -40,7 +40,8 @@ require_once("bootstrap.php");
 
 				<div class="form__error hidden">
 					<p>
-						Some error here
+						Some error here 
+						<!-- hier wil je enkel een error als die er is // denk aan if (isset($error)): .. zoals bij login.php --> 
 					</p>
 				</div>
 
