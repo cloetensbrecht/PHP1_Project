@@ -1,6 +1,6 @@
 <?php 
 
-    require_once('Security.class.php');
+    require_once('Security.class.php'); 
 
     class User{
         private $email;
@@ -39,7 +39,6 @@
 
         public function register(){
             $password = Security::hash($this->password);
-
             try {
                 $conn = Db::getInstance();
                 $statement = $conn->prepare('INSERT INTO users (email, password) VALUE (:email, :password);');
@@ -47,14 +46,13 @@
                 $statement->bindParam(":password", $password);
                 $result = $statement->execute();
                 return $result;
+
+                // hier nog een session aanmaken ? ipv in signup ? 
             }
 
             catch (Throwable $t) {
                 return $t;
             }
-
-
-
         }
 
         // maybe add some code to slow down bruit force attacks  ? 
@@ -77,7 +75,7 @@
                         echo "WORKS check ✅";
 
                         $this->id = $result['id'];
-                        $_SESSION['id'] = $this->email;
+                        $_SESSION['id'] = $this->email; // session aanmaken 
                         header("location: index.php");
                     } else{
                         $error = "Something went wrong, your email or password are wrong. Try again.";

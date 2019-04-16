@@ -2,7 +2,7 @@
 
 require_once("bootstrap.php");
 
-    if(!empty($_POST)){
+  if(!empty($_POST)){
 		$user = new User();
 
 		// GET & SET gegevens formulier
@@ -15,15 +15,11 @@ require_once("bootstrap.php");
 			// SESSION adhv email
 			$_SESSION['email'] = $user->getEmail();
 
-
 			// Ga naar feed
 			header('Location: index.php');
 		}
 
-
-		
-
-    }
+  }
 ?>
 
 <html lang="en">
@@ -60,6 +56,9 @@ require_once("bootstrap.php");
 
 				<div class="form__field">
 					<input type="submit" value="Sign me up!" class="btn btn--primary">	
+				</div>
+				<div>
+					<p>Already a account? <a href="login.php"> Login </a></p>
 				</div>
 			</form>
 		</div>
