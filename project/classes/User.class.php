@@ -42,15 +42,15 @@
 
             try {
                 $conn = Db::getInstance();
-                $statement = $conn->prepare('insert into user (email, password) values (:email, :password);');
-                $statement->bindParam(":email", $this->password);
+                $statement = $conn->prepare('INSERT INTO users (email, password) VALUE (:email, :password);');
+                $statement->bindParam(":email", $this->email);
                 $statement->bindParam(":password", $password);
                 $result = $statement->execute();
                 return $result;
             }
 
             catch (Throwable $t) {
-                return false;
+                return $t;
             }
 
 
@@ -85,7 +85,7 @@
                     }
                 }
                 catch(Throwable $t ){
-                    return $t;
+                    return false;
                 } 
             }   else {
                 $error = "Your email is invalid.";

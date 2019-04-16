@@ -8,7 +8,7 @@ require_once("bootstrap.php");
 		// GET & SET gegevens formulier
 		$user->setEmail($_POST['email']);
 		$user->setPassword($_POST['password']);
-		$user->setPasswordConfirmation(['password_confirmation']);
+		$user->setPasswordConfirmation($_POST['password_confirmation']);
 		if($user->register()){
 			session_start();
 			
@@ -38,15 +38,15 @@ require_once("bootstrap.php");
 			<form action="" method="post">
 				<h2 form__title>Sign up for an account</h2>
 
-				<div class="form__error hidden">
-					<p>
-						Some error here
-					</p>
-				</div>
+				<?php if (isset($error)): ?>
+					<div class="form__error">
+					<?php echo "⛔️" . $error; ?>
+					</div>
+				<?php endif; ?>
 
 				<div class="form__field">
 					<label for="email">Email</label>
-					<input type="text" id="email" name="email">
+					<input type="mail" id="email" name="email">
 				</div>
 				<div class="form__field">
 					<label for="password">Password</label>
