@@ -1,23 +1,35 @@
 <?php
 
+
 require_once("bootstrap.php");
 
   if(!empty($_POST)){
 		$user = new User();
 
-		// GET & SET gegevens formulier
-		$user->setEmail($_POST['email']);
-		$user->setPassword($_POST['password']);
-		$user->setPasswordConfirmation($_POST['password_confirmation']);
-		if($user->register()){
-			session_start();
+		$email = $_POST['email'];
+		$password = $_POST['password'];
+		$passwordComfirmation = $_POST['password_confirmation'];
+		
+		// You can register if password = passworfComfirmation
+		if($password == $passwordComfirmation) {
+			// GET & SET gegevens formulier
+			$user->setEmail($email);
+			$user->setPassword($password);
+			$user->setPasswordConfirmation($passwordComfirmation);
 			
-			// SESSION adhv email
-			$_SESSION['email'] = $user->getEmail();
-
-			// Ga naar feed
-			header('Location: index.php');
+			if($user->register()){
+				session_start();
+				
+				// SESSION adhv email
+				$_SESSION['email'] = $user->getEmail();
+	
+				// Ga naar feed
+				header('Location: index.php');
+			}
 		}
+		else {
+			$error = "Wrong password";
+		}		
 
   }
 ?>

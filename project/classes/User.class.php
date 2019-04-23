@@ -46,8 +46,6 @@
                 $statement->bindParam(":password", $password);
                 $result = $statement->execute();
                 return $result;
-
-                // hier nog een session aanmaken ? ipv in signup ? 
             }
 
             catch (Throwable $t) {
