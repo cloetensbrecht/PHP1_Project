@@ -10,7 +10,6 @@
             } else{
                 //$config = parse_ini_file('config/config.ini');
                 //self::$conn = new PDO('mysql:host=localhost;dbname=' . $config['db_name'], $config['db_user'], $config['db_password'] );
-                
                 self::$conn = new PDO("mysql:host=localhost;dbname=InspirationHunter", "root", "root");
                 return self::$conn;
             }
