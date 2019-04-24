@@ -27,14 +27,13 @@ if(!empty($_GET['searchInput'])){
         // items = table name in db
         $statement = $conn->prepare("SELECT * FROM items WHERE tags LIKE '%$searchInput%' ORDER BY id DESC LIMIT 20"); 
         // title, username zoeken?
+        $statement->execute();
+        $resultInput = $statement->fetchAll();
+        //print_r($resultInput); // print hele array van resultaat 
         
         $counter = $conn->prepare("SELECT COUNT(*) FROM items WHERE tags LIKE '%$searchInput%'");
         $counter->execute();
         $countRows = $counter->fetchColumn(); 
-
-        $statement->execute();
-        $resultInput = $statement->fetchAll();
-        //print_r($resultInput); // print hele array van resultaat 
     }
     else{ // if searchInput length is less than minimum
         $error = "Minimum length is ".$min_length;
