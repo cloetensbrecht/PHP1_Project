@@ -1,6 +1,6 @@
 <?php
   // Create database connection
-  $db = mysqli_connect("localhost", "root", "", "upload");
+  $db = mysqli_connect("localhost", "root", "", "inspirationhunter");
 
   // Initialize message variable
   $msg = "";
@@ -15,7 +15,7 @@
   	// image file directory
   	$target = "images/".basename($image);
 
-  	$sql = "INSERT INTO tbl_images (image, description) VALUES ('$image', '$description')";
+  	$sql = "INSERT INTO images (image, description) VALUES ('$image', '$description')";
   	// execute query
   	mysqli_query($db, $sql);
 
@@ -27,7 +27,7 @@
        
        
   }
-  $result = mysqli_query($db, "SELECT * FROM tbl_images");
+  $result = mysqli_query($db, "SELECT * FROM images");
 ?>
 <!DOCTYPE html>
 <html>
