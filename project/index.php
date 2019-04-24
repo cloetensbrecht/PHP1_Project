@@ -89,5 +89,10 @@
         }
         ?>
     </div>
+
+     <!-- FEATURE 7 - loadMore  -->
+    <div id="loadMore">
+
+    </div>
 </body>
 </html>
