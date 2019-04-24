@@ -18,6 +18,12 @@ if(!empty($_GET['searchInput'])){
     $min_length = 2;
     
     if(strlen($searchInput) >= $min_length){ 
+        // htmlspecialchars() tegen XSS attack > changes characters to equivalents like < to &gt;
+        $searchInput = htmlspecialchars($searchInput); 
+            
+        // real_escape_string() tegen SQL injection 
+        //$searchInput = real_escape_string($searchInput);
+   
         // items = table name in db
         $statement = $conn->prepare("SELECT * FROM items WHERE tags LIKE '%$searchInput%' ORDER BY id DESC LIMIT 20"); 
         // title, username zoeken?
