@@ -9,7 +9,7 @@
     // db connection
     $conn = Db::getInstance();
 
-    $counterResults = 0;
+    $countRows = 0;
 if(!empty($_GET['searchInput'])){
     // gets input from search 
     $searchInput = $_GET['searchInput'];  
@@ -30,7 +30,7 @@ if(!empty($_GET['searchInput'])){
         
         $counter = $conn->prepare("SELECT COUNT(*) FROM items WHERE tags LIKE '%$searchInput%'");
         $counter->execute();
-        $counterResults = $counter->fetchColumn(); 
+        $countRows = $counter->fetchColumn(); 
 
         $statement->execute();
         $resultInput = $statement->fetchAll();
@@ -75,9 +75,9 @@ if(!empty($_GET['searchInput'])){
     <div>
         <?php
         if(!empty($_GET['searchInput'])){ //
-            if($counterResults > 0){ 
+            if($countRows > 0){ 
                     // let user know if we found search results 
-                    echo "<h3> We found " . $counterResults ." results for " . $searchInput . "</h3>";
+                    echo "<h3> We found " . $countRows ." results for " . $searchInput . "</h3>";
                     // show search results 
                     foreach ($resultInput as $row => $link) {
                     echo  '<a href="'.  $link['foto'].'">' . $link['tags']. '</a></br>';
