@@ -17,5 +17,12 @@
     <p>Dit onderdeel wordt later nog aangevuld.</p>
     <br>
     <a href="logout.php">Logout</a>
+
+    <div class="form form--search">
+        <form action="" method="GET">
+            <input type="text" name="query" placeholder="search" />
+            <input type="submit" value="Search" />
+        </form>
+    </div>
 </body>
 </html>
