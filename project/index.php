@@ -10,38 +10,36 @@
     $conn = Db::getInstance();
 
     $countRows = 0;
-if(!empty($_GET['searchInput'])){
-    // gets input from search 
-    $searchInput = $_GET['searchInput'];  
-    
-    // minimum length of searchInput 
-    $min_length = 2;
-    
-    if(strlen($searchInput) >= $min_length){ 
-        // htmlspecialchars() tegen XSS attack > changes characters to equivalents like < to &gt;
-        $searchInput = htmlspecialchars($searchInput); 
-            
-        // real_escape_string() tegen SQL injection 
-        //$searchInput = real_escape_string($searchInput);
-   
-        // items = table name in db
-        $statement = $conn->prepare("SELECT * FROM items WHERE tags LIKE '%$searchInput%' ORDER BY id DESC LIMIT 20"); 
-        // title, username zoeken?
-        $statement->execute();
-        $resultInput = $statement->fetchAll();
-        //print_r($resultInput); // print hele array van resultaat 
+    if(!empty($_GET['searchInput'])){
+        // gets input from search 
+        $searchInput = $_GET['searchInput'];  
         
-        $counter = $conn->prepare("SELECT COUNT(*) FROM items WHERE tags LIKE '%$searchInput%'");
-        $counter->execute();
-        $countRows = $counter->fetchColumn(); 
+        // minimum length of searchInput 
+        $min_length = 2;
+        
+        if(strlen($searchInput) >= $min_length){ 
+            // htmlspecialchars() tegen XSS attack > changes characters to equivalents like < to &gt;
+            $searchInput = htmlspecialchars($searchInput); 
+                
+            // real_escape_string() tegen SQL injection 
+            //$searchInput = real_escape_string($searchInput);
+    
+            // items = table name in db
+            $statement = $conn->prepare("SELECT * FROM items WHERE tags LIKE '%$searchInput%' ORDER BY id DESC LIMIT 20"); 
+            // title, username zoeken?
+            $statement->execute();
+            $resultInput = $statement->fetchAll();
+            //print_r($resultInput); // print hele array van resultaat 
+            
+            $counter = $conn->prepare("SELECT COUNT(*) FROM items WHERE tags LIKE '%$searchInput%'");
+            $counter->execute();
+            $countRows = $counter->fetchColumn();  // OR  $countRows = $statement->rowCount();
+        }
+        else{ // if searchInput length is less than minimum
+            $error = "Minimum length is ".$min_length;
+        }
     }
-    else{ // if searchInput length is less than minimum
-        $error = "Minimum length is ".$min_length;
-    }
-}
-
-?>
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
