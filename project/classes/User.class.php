@@ -65,11 +65,11 @@
                     $statement->execute();
                     $result = $statement->fetch(PDO::FETCH_ASSOC);
 
-                    if($this->password === $result['password']){
+                    //if($this->password === $result['password']){
                     // NORMAAL met password_verify 
                     // MAAR verify hashes created with other functions like crypt()
                     // kan pas als er een sign in is, met crypt
-                    //if(password_verify($this->password, $result['password'])){
+                    if(password_verify($this->password, $result['password'])){
                         echo "WORKS check ✅";
 
                         $this->id = $result['id'];
