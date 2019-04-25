@@ -1,7 +1,9 @@
 <?php
+  require_once("bootstrap.php"); // edit EB
+  
   // Create database connection
-  $db = mysqli_connect("localhost", "root", "", "inspirationhunter");
-
+  //$db = mysqli_connect("localhost", "root", "", "inspirationhunter");
+  $conn = Db::getInstance(); // edit EB
   // Initialize message variable
   $msg = "";
 
@@ -10,24 +12,31 @@
   	// Get image name
   	$image = $_FILES['image']['name'];
   	// Get text
-       $description = mysqli_real_escape_string($db, $_POST['image_text']);
+       //$description = mysqli_real_escape_string($db, $_POST['image_text']);
+       $description = $_POST['image_text'];
 
   	// image file directory
   	$target = "images/".basename($image);
 
-  	$sql = "INSERT INTO images (image, description) VALUES ('$image', '$description')";
+    $statement = $conn->prepare("INSERT INTO images (image, description) VALUES ('$image', '$description')"); // edit EB
+    $statement->execute(); // edit EB
+
+  	//$sql = "INSERT INTO images (image, description) VALUES ('$image', '$description')";
   	// execute query
-  	mysqli_query($db, $sql);
+  	//mysqli_query($db, $sql);
 
   	if (move_uploaded_file($_FILES['image']['tmp_name'], $target)) {
   		$msg = "Image uploaded successfully";
   	}else{
   		$msg = "Failed to upload image";
        }
-       
-       
   }
-  $result = mysqli_query($db, "SELECT * FROM images");
+  
+    $result = $conn->prepare("SELECT * FROM images");  // edit EB
+    $result->execute();
+    $result = $result->fetchAll();
+
+  //$result = mysqli_query($db, "SELECT * FROM images");
 ?>
 <!DOCTYPE html>
 <html>
@@ -86,14 +95,33 @@
   </form>
 </div>
 <?php
-    while ($row = mysqli_fetch_array($result)) {
+    // fetch(PDO::FETCH_BOTH) // edit EB
+    
+    //edit 
+    /*while ($row = $result->fetch(PDO::FETCH_BOTH)) {   // edit EB
       echo "<div id='img_div'>";
       	echo "<img src='images/".$row['image']."' >";
       	echo "<p>".$row['description']."</p>";
       echo "</div>";
     }
+*/
+    foreach ($result as $r => $row) {
+     // echo  '<a href="'.  $link['foto'].'">' . $link['tags']. '</a></br>';
+      echo "<div id='img_div'>";
+      	echo "<img src='images/".$row['image']."' >";
+      	echo "<p>".$row['description']."</p>";
+      echo "</div>";
+      }
 
-    
+
+    /* orig
+    while ($row = mysqli_fetch_array($result)) { 
+         echo "<div id='img_div'>";
+          echo "<img src='images/".$row['image']."' >";
+          echo "<p>".$row['description']."</p>";
+        echo "</div>";
+      }
+    */
   ?>
 </body>
 </html>
