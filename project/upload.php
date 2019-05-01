@@ -1,41 +1,33 @@
 <?php
-  require_once("bootstrap.php"); // edit EB
-  
-  // Create database connection
-  //$db = mysqli_connect("localhost", "root", "", "inspirationhunter");
-  $conn = Db::getInstance(); // edit EB
-  // Initialize message variable
-  $msg = "";
+  require_once("bootstrap.php"); 
 
+  // Create database connection
+  $conn = Db::getInstance(); 
+  
   // If upload button is clicked ...
   if (isset($_POST['upload'])) {
   	// Get image name
   	$image = $_FILES['image']['name'];
-  	// Get text
-       //$description = mysqli_real_escape_string($db, $_POST['image_text']);
-       $description = $_POST['description'];
+    // Get text
+    $description = $_POST['description'];
        
   	// image file directory
   	$target = "postImages/".basename($image);
-    $statement = $conn->prepare("INSERT INTO posts (image, description) VALUES ('$image', '$description')"); // edit EB
-    $statement->execute(); // edit EB
+    $statement = $conn->prepare("INSERT INTO posts (image, description) VALUES ('$image', '$description')"); 
+    $statement->execute(); 
 
-  	//$sql = "INSERT INTO posts (image, description) VALUES ('$image', '$description')";
-  	// execute query
-  	//mysqli_query($db, $sql);
+    $result = $conn->prepare("SELECT * FROM posts");  
+    $result->execute();
+    $result = $result->fetchAll();
 
+    // Initialize message variable
+    $msg = "";
   	if (move_uploaded_file($_FILES['image']['tmp_name'], $target)) {
   		$msg = "Image uploaded successfully";
   	}else{
   		$msg = "Failed to upload image";
        }
-  }
-  
-    $result = $conn->prepare("SELECT * FROM posts");  // edit EB
-    $result->execute();
-    $result = $result->fetchAll();
-
-  //$result = mysqli_query($db, "SELECT * FROM posts");
+    }
 ?>
 <!DOCTYPE html>
 <html>
