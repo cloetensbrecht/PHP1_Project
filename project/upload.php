@@ -16,12 +16,12 @@
        $description = $_POST['image_text'];
 
   	// image file directory
-  	$target = "images/".basename($image);
+  	$target = "posts/".basename($image);
 
-    $statement = $conn->prepare("INSERT INTO images (image, description) VALUES ('$image', '$description')"); // edit EB
+    $statement = $conn->prepare("INSERT INTO posts (image, description) VALUES ('$image', '$description')"); // edit EB
     $statement->execute(); // edit EB
 
-  	//$sql = "INSERT INTO images (image, description) VALUES ('$image', '$description')";
+  	//$sql = "INSERT INTO posts (image, description) VALUES ('$image', '$description')";
   	// execute query
   	//mysqli_query($db, $sql);
 
@@ -32,11 +32,11 @@
        }
   }
   
-    $result = $conn->prepare("SELECT * FROM images");  // edit EB
+    $result = $conn->prepare("SELECT * FROM posts");  // edit EB
     $result->execute();
     $result = $result->fetchAll();
 
-  //$result = mysqli_query($db, "SELECT * FROM images");
+  //$result = mysqli_query($db, "SELECT * FROM posts");
 ?>
 <!DOCTYPE html>
 <html>
@@ -100,7 +100,7 @@
     //edit 
     /*while ($row = $result->fetch(PDO::FETCH_BOTH)) {   // edit EB
       echo "<div id='img_div'>";
-      	echo "<img src='images/".$row['image']."' >";
+      	echo "<img src='posts/".$row['image']."' >";
       	echo "<p>".$row['description']."</p>";
       echo "</div>";
     }
@@ -108,8 +108,9 @@
     foreach ($result as $r => $row) {
      // echo  '<a href="'.  $link['foto'].'">' . $link['tags']. '</a></br>';
       echo "<div id='img_div'>";
-      	echo "<img src='images/".$row['image']."' >";
-      	echo "<p>".$row['description']."</p>";
+      	echo "<img src='posts/".$row['image']."' >";
+        echo "<p>".$row['description']."</p>";
+        echo "<p>".$row['time']."</p>";
       echo "</div>";
       }
 
@@ -117,7 +118,7 @@
     /* orig
     while ($row = mysqli_fetch_array($result)) { 
          echo "<div id='img_div'>";
-          echo "<img src='images/".$row['image']."' >";
+          echo "<img src='posts/".$row['image']."' >";
           echo "<p>".$row['description']."</p>";
         echo "</div>";
       }
