@@ -13,11 +13,10 @@
   	$image = $_FILES['image']['name'];
   	// Get text
        //$description = mysqli_real_escape_string($db, $_POST['image_text']);
-       $description = $_POST['image_text'];
-
+       $description = $_POST['description'];
+       
   	// image file directory
-  	$target = "posts/".basename($image);
-
+  	$target = "postImages/".basename($image);
     $statement = $conn->prepare("INSERT INTO posts (image, description) VALUES ('$image', '$description')"); // edit EB
     $statement->execute(); // edit EB
 
@@ -86,7 +85,7 @@
   	  <input type="file" name="image">
   	</div>
      <p>Description</p>
-      <input type="text" id="text" name="image_text" style="width: 400px; padding-bottom: 50px;">
+      <input type="text" id="description" name="description" style="width: 400px; padding-bottom: 50px;">
       <br/>
       <br/>
   	<div class="btn">
@@ -95,34 +94,64 @@
   </form>
 </div>
 <?php
-    // fetch(PDO::FETCH_BOTH) // edit EB
-    
-    //edit 
-    /*while ($row = $result->fetch(PDO::FETCH_BOTH)) {   // edit EB
-      echo "<div id='img_div'>";
-      	echo "<img src='posts/".$row['image']."' >";
-      	echo "<p>".$row['description']."</p>";
-      echo "</div>";
-    }
-*/
-    foreach ($result as $r => $row) {
-     // echo  '<a href="'.  $link['foto'].'">' . $link['tags']. '</a></br>';
-      echo "<div id='img_div'>";
-      	echo "<img src='posts/".$row['image']."' >";
-        echo "<p>".$row['description']."</p>";
-        echo "<p>".$row['time']."</p>";
-      echo "</div>";
-      }
-
-
-    /* orig
-    while ($row = mysqli_fetch_array($result)) { 
-         echo "<div id='img_div'>";
-          echo "<img src='posts/".$row['image']."' >";
-          echo "<p>".$row['description']."</p>";
-        echo "</div>";
-      }
+    /* feature 13 - wanneer foto opgeladen in de databank ? > toon hoe lang geleden 
+    (vb: 1 uur geleden, een half uur geleden, zonet, gisteren 12u54)
     */
+    $currentTime = time();   // NOW
+    
+    /* feature 4 - foto posten met beschrijving */
+    foreach ($result as $r => $row):
+
+       // feature 13
+        $timeOfPost = strtotime($row['time']); // uit databank de tijd halen 
+        $timeStatus = "";
+        $seconds = $currentTime - $timeOfPost;
+        $minutes = (int)floor($seconds / 60);
+        $hours = (int)floor($minutes / 60);
+        $days = (int)floor($hours / 24);
+
+        // hoelang geleden - tijd bepalen 
+        if ($seconds <60) {
+          $timeStatus = "now";
+        } else if ($minutes == 1) {
+            $timeStatus = "a minute ago";
+        } else if ($minutes == 2) {
+            $timeStatus = "two minutes ago";
+        } else if ($minutes == 3) {
+            $timeStatus = "three minutes ago";
+        } else if ($minutes <15) {
+            $timeStatus = "less than fifteen minutes ago";
+        } else if ($minutes == 15) {
+            $timeStatus = "fifteen minutes ago";
+        } else if ($minutes <30) {
+            $timeStatus = "less than half an hour ago";
+        } else if ($minutes == 30) {
+            $timeStatus = "half an hour ago";
+        } else if ($hours <1) {
+            $timeStatus = "less than an hour ago";
+        } else if ($hours == 1) {
+            $timeStatus = "an hour ago";
+        } else if ($hours == 2) {
+            $timeStatus = "two hours ago";
+        } else if ($hours == 3) {
+            $timeStatus = "three hours ago";
+        } else if ($days <1) {
+            $timeStatus = "less than a day ago";
+        } else if ($days == 1 && $seconds> 1) {
+            $timeStatus = "yesterday";
+        } else if ($days == 2 && $seconds> 1) {
+            $timeStatus = "the day before yesterday";
+        } else {
+            $timeStatus = date ('d / m / Y', time () - $seconds);
+        }
+
+      // feature 4
+      echo "<div id='img_div'>";
+      	echo "<img src='postImages/".$row['image']."' >";
+        echo "<p>".$row['description']."</p>";
+        echo "<p>".$timeStatus."</p>"; // feature 13
+      echo "</div>";
   ?>
+  <?php endforeach; ?>
 </body>
 </html>
