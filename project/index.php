@@ -66,9 +66,14 @@
     <p>Dit onderdeel wordt later nog aangevuld.</p>
     <br>
    
-    <a href="logout.php">Logout</a>
+    <!--  FEATURE 4 -  POST foto met beschrijving --> 
+    <a href="upload.php">New Post</a>
+
     <!--  FEATURE 3 - profiel aanpassen  -->
     <?php echo "<a href='updateProfile.php?id=" . $id . "'>Edit profile</a>"; ?> 
+   
+    <!--  FEATURE  2  inloggen & uitloggen -->
+    <a href="logout.php">Logout</a>
 
     <!-- FEATURE 6 - SEARCH -->
     <div class="form form--search">

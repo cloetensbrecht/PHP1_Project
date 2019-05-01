@@ -1,4 +1,6 @@
+<!--  FEATURE 4 -  POST foto met beschrijving --> 
 <?php
+  
   require_once("bootstrap.php"); 
 
   // Create database connection
@@ -75,7 +77,7 @@
 </head>
 
 <body>
-
+<!--  FEATURE 4 -  POST foto met beschrijving --> 
   <h1>Upload image</h1>
   <div id="content">
     <form method="post" action="upload.php" enctype="multipart/form-data">
