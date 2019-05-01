@@ -11,7 +11,7 @@
         $user = new User;
         $user->setEmail($_POST["email"])->setPassword($_POST["password"]);
         $error = $user->canLogin();
-    }
+	}
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,7 +26,6 @@
 			<form action="" method="post">
 				<img id="logo" src="#" alt="">
 				<h2 form__title>Login</h2>
-
 				<?php if (isset($error)): ?>
 					<div class="form__error">
 					<?php echo "⛔️" . $error; ?>

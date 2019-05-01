@@ -10,14 +10,14 @@
   	$image = $_FILES['image']['name'];
     // Get description text & filter
     $description = $_POST['description'];
-    $filter = $_POST['filter'];
-       
+    //$filter = $_POST['filter'];
+    $filter = "test";
   	// image file directory
   	$target = "postImages/".basename($image);
     $statement = $conn->prepare("INSERT INTO posts (image, description, filter) VALUES ('$image', '$description', '$filter')"); 
     $statement->execute(); 
 
-    $result = $conn->prepare("SELECT * FROM posts");  
+    $result = $conn->prepare("SELECT * FROM posts LIMIT 20");  
     $result->execute();
     $result = $result->fetchAll();
 
@@ -88,7 +88,7 @@
         <input type="text" id="description" name="description" style="width: 400px; padding-bottom: 50px;">
         <br />
       </div>
-      <!-- feature 16 filter op foto met CSSGram  -->
+      <!-- feature 16 filter op foto met CSSGram  -- >
       <div class="filter">
         <p>Filter</p>
         <select name="filter">
@@ -121,6 +121,8 @@
           <option value="X-pro II" class="xpro2">X-pro II</option>
         </select>
       </div>
+      -->
+
       <br />
       <div class="btn">
         <button type="submit" name="upload">Upload</button>
@@ -134,7 +136,7 @@
     $currentTime = time();   // NOW
     
     /* feature 4 - foto posten met beschrijving */
-    //if(!empty($result)):
+    if(!empty($result)):
     foreach ($result as $r => $row):
 
        // feature 13
@@ -185,13 +187,14 @@
       	echo "<img src='postImages/" . $row['image'] . ">";
         echo "<p>".$row['description']."</p>";
         echo "<p>".$timeStatus."</p>"; // feature 13
+        echo "<p>".$row['filter']."</p>"; // feature 16 
       echo "</div>";
   ?>
   <?php endforeach; 
-  //endif;
-  /*if(empty($result)){
+  endif;
+  if(empty($result)){
     echo "Oops, no posts yet. ";
-  }*/
+  }
   ?>
 </body>
 
