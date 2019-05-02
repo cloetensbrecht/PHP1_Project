@@ -41,6 +41,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 <title>Upload</title>
 <style type="text/css">
   body{
@@ -110,8 +111,45 @@
       echo "<div id='img_div'>";
       	echo "<img src='images/".$row['image']."' >";
       	echo "<p>".$row['description']."</p>";
-      echo "</div>";
-      }
+      echo "</div>";?>
+
+      <div class="likes">
+        <?php $like = Post::like($_SESSION['id'], $r['id']); ?>
+                
+          <?php if ($like['active'] == 1): ?>
+            <span data-id="<?php echo $r['id']; ?>" class="unlike like-btn fas fa-heart"></span>
+            <span data-id="<?php echo $r['id']; ?>" class="like like-btn hide far fa-heart"></span>
+          <?php endif; ?>
+
+          <?php if ($like['active'] == 0): ?>
+            <span data-id="<?php echo $r['id']; ?>" class="unlike like-btn hide fas fa-heart"></span>
+            <span data-id="<?php echo $r['id']; ?>" class="like like-btn far fa-heart"></span>
+          <?php endif; ?>
+          
+          <?php $likeCount = Post::likeCount($r['id']); ?>
+
+          <?php if ( $likeCount == 1 ): ?>
+            <span class="likes-count"><?php echo $likeCount; ?> like</span>
+          <?php endif; ?>
+
+          <?php if ( $likeCount == 0 || $likeCount > 1) : ?>
+            <span class="likes-count"><?php echo $likeCount; ?> likes</span>
+        <?php endif; ?>
+      </div>
+
+
+      <?php 
+      
+      
+
+
+    
+    
+    }
+    
+    
+    
+    ?>
 
 
     /* orig
