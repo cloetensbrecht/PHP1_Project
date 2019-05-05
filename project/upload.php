@@ -86,7 +86,7 @@
         <input type="text" id="description" name="description" style="width: 400px; padding-bottom: 50px;">
         <br />
       </div>
-      <!-- feature 16 filter op foto met CSSGram  -->
+      <!-- FEATURE 16 filter op foto met CSSGram  -->
       <div class="filter">
         <p>Filter</p>
         <select name="filter">
@@ -128,16 +128,16 @@
     </form>
   </div>
   <?php
-    /* feature 13 - wanneer foto opgeladen in de databank ? > toon hoe lang geleden
+    /* FEATURE 13 - wanneer foto opgeladen in de databank ? > toon hoe lang geleden
     (vb: 1 uur geleden, een half uur geleden, zonet, gisteren 12u54)
     */
     $currentTime = time();   // NOW
 
-    /* feature 4 - foto posten met beschrijving */
+    /* FEATURE 4 - foto posten met beschrijving */
     //if (!empty($result)):
     foreach ($result as $r => $row):
 
-       // feature 13
+       // FEATURE 13
         $timeOfPost = strtotime($row['time']); // uit databank de tijd halen
         $timeStatus = '';
         $seconds = $currentTime - $timeOfPost;
@@ -180,14 +180,14 @@
             $timeStatus = date('d / m / Y', time() - $seconds);
         }
 
-      // feature 4
+      // FEATURE 4
       echo "<div id='img_div'> ";
-          /* feature 16 filter op foto met CSSGram  // class='".$row['filter']  */
+          /* FEATURE 16 filter op foto met CSSGram  // class='".$row['filter']  */
           echo "<div class='".$row['filter']."'><img src='postImages/".$row['image']."'> </div>";
           echo '<p><strong>'.$row['username'].'</strong></p>';
           echo '<p>'.$row['description'].'</p>';
-          echo '<p>'.$timeStatus.'</p>'; // feature 13
-          echo '<p>'.$row['filter'].'</p>'; // feature 16
+          echo '<p>'.$timeStatus.'</p>'; // FEATURE 13
+          echo '<p>'.$row['filter'].'</p>'; // FEATURE 16
 
       echo '</div>';
       //var_dump($row); // TESTEN
