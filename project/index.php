@@ -1,53 +1,53 @@
-<?php 
-    require_once("bootstrap.php");
+<?php
+    require_once 'bootstrap.php';
 
-    if(!isset($_SESSION["id"])){
-        header("location: login.php");
+    if (!isset($_SESSION['id'])) {
+        header('location: login.php');
     }
-    
-    // info ophalen uit db 
-    $emailCheck = $_SESSION["id"];
+
+    // info ophalen uit db
+    $emailCheck = $_SESSION['id'];
 
     $conn = Db::getInstance(); // db connection
-    $result = $conn->prepare("SELECT * FROM users WHERE email= :email;");
-    $result->bindParam(":email", $emailCheck);
+    $result = $conn->prepare('SELECT * FROM users WHERE email= :email;');
+    $result->bindParam(':email', $emailCheck);
     $result->execute();
     $resultOfUsers = $result->fetchAll();
 
     $id = null;
-    foreach ($resultOfUsers as $res => $r){  
-        $id = $r['id']; 
+    foreach ($resultOfUsers as $res => $r) {
+        $id = $r['id'];
     }
-    
-    // FEATURE 6 - SEARCH 
+
+    // FEATURE 6 - SEARCH
     $countRows = 0;
-    if(!empty($_GET['searchInput'])){
-        // gets input from search 
-        $searchInput = $_GET['searchInput'];  
-        
-        // minimum length of searchInput 
+    if (!empty($_GET['searchInput'])) {
+        // gets input from search
+        $searchInput = $_GET['searchInput'];
+
+        // minimum length of searchInput
         $min_length = 2;
-        
-        if(strlen($searchInput) >= $min_length){ 
+
+        if (strlen($searchInput) >= $min_length) {
             // htmlspecialchars() tegen XSS attack > changes characters to equivalents like < to &gt;
-            $searchInput = htmlspecialchars($searchInput); 
-                
-            // real_escape_string() tegen SQL injection 
+            $searchInput = htmlspecialchars($searchInput);
+
+            // real_escape_string() tegen SQL injection
             //$searchInput = real_escape_string($searchInput);
-    
+
             // items = table name in db
-            $statement = $conn->prepare("SELECT * FROM items WHERE tags LIKE '%$searchInput%' ORDER BY id DESC LIMIT 20"); 
+            $statement = $conn->prepare("SELECT * FROM items WHERE tags LIKE '%$searchInput%' ORDER BY id DESC LIMIT 20");
+
             // title, username zoeken?
             $statement->execute();
             $resultInput = $statement->fetchAll();
-            //print_r($resultInput); // print hele array van resultaat 
-            
+            //print_r($resultInput); // print hele array van resultaat
+
             $counter = $conn->prepare("SELECT COUNT(*) FROM items WHERE tags LIKE '%$searchInput%'");
             $counter->execute();
             $countRows = $counter->fetchColumn();  // OR  $countRows = $statement->rowCount();
-        }
-        else{ // if searchInput length is less than minimum
-            $error = "Minimum length is ".$min_length;
+        } else { // if searchInput length is less than minimum
+            $error = 'Minimum length is '.$min_length;
         }
     }
 
@@ -70,7 +70,7 @@
     <a href="upload.php">New Post</a>
 
     <!--  FEATURE 3 - profiel aanpassen  -->
-    <?php echo "<a href='updateProfile.php?id=" . $id . "'>Edit profile</a>"; ?> 
+    <?php echo "<a href='updateProfile.php?id=".$id."'>Edit profile</a>"; ?> 
    
     <!--  FEATURE  2  inloggen & uitloggen -->
     <a href="logout.php">Logout</a>
@@ -85,28 +85,27 @@
         </form>
         <?php if (isset($error)): ?>
         <div class="form__error">
-            <?php echo "⛔️" . $error; ?>
+            <?php echo '⛔️'.$error; ?>
         </div>
         <?php endif; ?>
     </div>
 
     <div>
         <?php
-        if(!empty($_GET['searchInput'])){
-            if($countRows > 0){ 
-                    // let user know if we found search results 
-                    echo "<h3> We found " . $countRows ." results for " . $searchInput . "</h3>";
-                    // show search results 
-                    foreach ($resultInput as $row => $link) {
-                    echo  '<a href="'.  $link['foto'].'">' . $link['tags']. '</a></br>';
-                    }
+        if (!empty($_GET['searchInput'])) {
+            if ($countRows > 0) {
+                // let user know if we found search results
+                echo '<h3> We found '.$countRows.' results for '.$searchInput.'</h3>';
+                // show search results
+                foreach ($resultInput as $row => $link) {
+                    echo  '<a href="'.$link['foto'].'">'.$link['tags'].'</a></br>';
+                }
+            } else { // if there is no matching rows do following
+                echo '<h3> We found no results for '.$searchInput.'</h3>';
+                $error = 'We found no results for '.$searchInput;
             }
-            else{ // if there is no matching rows do following
-                echo "<h3> We found no results for " . $searchInput . "</h3>";
-                $error = "We found no results for " . $searchInput;
-            }
-        }else {
-            $error = "First enter what you want to look for.";
+        } else {
+            $error = 'First enter what you want to look for.';
         }
         ?>
     </div>
