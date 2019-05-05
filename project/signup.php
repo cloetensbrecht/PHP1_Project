@@ -1,36 +1,33 @@
 <?php
 
+require_once 'bootstrap.php';
 
-require_once("bootstrap.php");
+  if (!empty($_POST)) {
+      $user = new User();
 
-  if(!empty($_POST)){
-		$user = new User();
+      $email = $_POST['email'];
+      $password = $_POST['password'];
+      $passwordComfirmation = $_POST['password_confirmation'];
 
-		$email = $_POST['email'];
-		$password = $_POST['password'];
-		$passwordComfirmation = $_POST['password_confirmation'];
-		
-		// You can register if password = passworfComfirmation
-		if($password == $passwordComfirmation) {
-			// GET & SET gegevens formulier
-			$user->setEmail($email);
-			$user->setPassword($password);
-			$user->setPasswordConfirmation($passwordComfirmation);
-			
-			if($user->register()){
-				session_start();
-				
-				// SESSION adhv email
-				$_SESSION['email'] = $user->getEmail();
-	
-				// Ga naar feed
-				header('Location: index.php');
-			}
-		}
-		else {
-			$error = "Wrong password";
-		}		
+      // You can register if password = passworfComfirmation
+      if ($password == $passwordComfirmation) {
+          // GET & SET gegevens formulier
+          $user->setEmail($email);
+          $user->setPassword($password);
+          $user->setPasswordConfirmation($passwordComfirmation);
 
+          if ($user->register()) {
+              session_start();
+
+              // SESSION adhv email
+              $_SESSION['email'] = $user->getEmail();
+
+              // Ga naar feed
+              header('Location: index.php');
+          }
+      } else {
+          $error = 'Wrong password';
+      }
   }
 ?>
 
@@ -48,7 +45,7 @@ require_once("bootstrap.php");
 
 				<?php if (isset($error)): ?>
 					<div class="form__error">
-					<?php echo "⛔️" . $error; ?>
+					<?php echo '⛔️'.$error; ?>
 					</div>
 				<?php endif; ?>
 
