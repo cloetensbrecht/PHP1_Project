@@ -22,23 +22,33 @@
     echo $id;
 
     if (!empty($_POST)) {
+        // check pw
+        $user = new User();
+        $user->setPassword($_POST['CurrentPassword']);
+        $error = $user->canLogin();
+
         // keep track validation errors
         $firstNameError = null;
         $lastNameError = null;
+        $usernameError = null;
         $emailError = null;
         $mobileError = null;
         $bioError = null;
-        $passwordError = null;
-        $usernameError = null;
+        $profilePictureError = null;
+
+        $passwordError = null; // for NewPassword & CurrentPassword
 
         // keep track post values
         $firstName = $_POST['firstName'];
         $lastName = $_POST['lastName'];
         $email = $_POST['email'];
+        $username = $_POST['username'];
         $mobile = $_POST['mobile'];
         $bio = $_POST['bio'];
-        $password = $_POST['password'];
-        $username = $_POST['username'];
+        $profilePicture = $_FILES['profilePicture'];
+        //$password = $_POST['password'];
+        //$NewPassword = $_POST['NewPassword'];
+        $CurrentPassword = $_POST['CurrentPassword'];
 
         // validate input
         $valid = true;
@@ -59,17 +69,31 @@
             $valid = false;
         }
 
+        if (empty($username)) {
+            $usernameError = 'Please enter username';
+            $valid = false;
+        }
+
         if (empty($mobile)) {
             $mobileError = 'Please enter Mobile Number';
+            $valid = false;
+        }
+        if (empty($bio)) {
+            $bioError = 'Please enter bio';
+            $valid = false;
+        }
+
+        if (empty($profilePicture)) {
+            $profilePictureError = 'Please take a profile picture';
             $valid = false;
         }
 
         // update data
         if ($valid) {
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = 'UPDATE users set firstName = ?, lastName = ?, email = ?, mobile =?, bio=? , password=?, username=? WHERE id = ?';
+            $sql = 'UPDATE users set firstName = ?, lastName = ?, email = ?, mobile =?, bio=? , profilePicture=? , username=? WHERE id = ?';
             $q = $conn->prepare($sql);
-            $q->execute(array($firstName, $lastName, $email, $mobile, $bio, $password, $username, $id));
+            $q->execute(array($firstName, $lastName, $email, $mobile, $bio, $profilePicture, $username, $id));
             //Database::disconnect();
             header('Location: index.php');
         }
@@ -84,7 +108,9 @@
         $email = $data['email'];
         $mobile = $data['mobile'];
         $bio = $data['bio'];
-        $password = $data['password'];
+        $profilePicture = $data['profilePicture'];
+        //$NewPassword = $data['NewPassword'];
+        //$CurrentPassword = $data['CurrentPassword'];
         $username = $data['username'];
         //Database::disconnect();
     }
@@ -110,7 +136,7 @@
 
             <form class="form-horizontal" action="updateProfile.php?id=<?php echo $id; ?>" method="post">
                 <div class="control-group <?php echo !empty($firstNameError) ? 'error' : ''; ?>">
-                    <label class="control-label">firstName</label>
+                    <label class="control-label">Firstname</label>
                     <div class="controls">
                         <input name="firstName" type="text" placeholder="firstName"
                             value="<?php echo !empty($firstName) ? $firstName : ''; ?>">
@@ -120,7 +146,7 @@
                     </div>
                 </div>
                 <div class="control-group <?php echo !empty($lastNameError) ? 'error' : ''; ?>">
-                    <label class="control-label">lastName</label>
+                    <label class="control-label">Lastname</label>
                     <div class="controls">
                         <input name="lastName" type="text" placeholder="lastName"
                             value="<?php echo !empty($lastName) ? $lastName : ''; ?>">
@@ -139,28 +165,8 @@
                         <?php endif; ?>
                     </div>
                 </div>
-                <div class="control-group <?php echo !empty($bioError) ? 'error' : ''; ?>">
-                    <label class="control-label">bio</label>
-                    <div class="controls">
-                        <input name="bio" type="text" placeholder="bio"
-                            value="<?php echo !empty($bio) ? $bio : ''; ?>">
-                        <?php if (!empty($bioError)): ?>
-                        <span class="help-inline"><?php echo $bioError; ?></span>
-                        <?php endif; ?>
-                    </div>
-                </div>
-                <!-- TO DO protect pw -->
-                <div class="control-group <?php echo !empty($passwordError) ? 'error' : ''; ?>">
-                    <label class="control-label">Password</label>
-                    <div class="controls">
-                        <input name="password" type="text" placeholder="********">
-                        <?php if (!empty($passwordError)): ?>
-                        <span class="help-inline"><?php echo $passwordError; ?></span>
-                        <?php endif; ?>
-                    </div>
-                </div>
                 <div class="control-group <?php echo !empty($usernameError) ? 'error' : ''; ?>">
-                    <label class="control-label">username</label>
+                    <label class="control-label">Username</label>
                     <div class="controls">
                         <input name="username" type="text" placeholder="username"
                             value="<?php echo !empty($username) ? $username : ''; ?>">
@@ -179,11 +185,46 @@
                         <?php endif; ?>
                     </div>
                 </div>
+                <div class="control-group <?php echo !empty($bioError) ? 'error' : ''; ?>">
+                    <label class="control-label">Bio</label>
+                    <div class="controls">
+                        <textarea name="bio" type="text" placeholder="bio"
+                            value="<?php echo !empty($bio) ? $bio : ''; ?>"></textarea>
+                        <?php if (!empty($bioError)): ?>
+                        <span class="help-inline"><?php echo $bioError; ?></span>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <div class="control-group <?php echo !empty($bioError) ? 'error' : ''; ?>">
+                    <label class="control-label">Profile Picture</label>
+                    <div class="controls">
+                        <input name="profilePicture" type="file" placeholder="profilePicture"
+                            value="<?php echo !empty($profilePicture) ? $profilePicture : ''; ?>">
+                        <?php if (!empty($bioError)): ?>
+                        <span class="help-inline"><?php echo $bioError; ?></span>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                
+                <!-- protect profile - pw -->
+                <h3>Current password</h3>
+                <p>To change profile information, you must enter the current password.</p>
+                <div class="control-group <?php echo !empty($passwordError) ? 'error' : ''; ?>">
+                    <label class="control-label">Current Password</label>
+                    <div class="controls">
+                        <input name="CurrentPassword" type="text" placeholder="********" required>
+                        <?php if (!empty($passwordError)): ?>
+                        <span class="help-inline"><?php echo $passwordError; ?></span>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-success">Update</button>
-                    <a class="btn" href="index.php">Back</a>
+                    <button type="submit" class="btn btn-success">Update profile</button>
                 </div>
             </form>
+
+            <a class="btn" href="index.php">Back</a>
         </div>
     </div> 
 </body>
