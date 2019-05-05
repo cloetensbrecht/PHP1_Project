@@ -3,9 +3,50 @@
     padding: 0;
     margin: 0;
     border: 0;
+    font-family: Helvetica, sans-serif;
+    background-color: aqua;
 }
 
-div.form__error{
- color: red;
- border: 1px solid red;
+body {
+
+    margin: 20px auto;
+    text-align: center;
 }
+
+div.form__error {
+    color: red;
+    border: 1px solid red;
+}
+
+
+
+#img_div {
+    text-align: center;
+    padding: 5px;
+    margin: 15px auto;
+
+}
+
+#img_div:after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+img {
+    margin: 5px;
+    width: 300px;
+    height: 300px;
+}
+
+h1 {
+    font-family: sans-serif;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+p {
+    font-family: sans-serif;
+}
+
+.btn {}

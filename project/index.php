@@ -1,5 +1,6 @@
 <?php
     require_once 'bootstrap.php';
+    include_once 'loadmorePosts.php';
 
     if (!isset($_SESSION['id'])) {
         header('location: login.php');
@@ -20,58 +21,29 @@
         $id = $r['id'];
     }
 
+    // FEATURE 7 - loadMore
+
     /* FEATURE 5 - laatste 20 posts  */
     // overzicht geuploade img
-    $result = $conn->prepare('SELECT * FROM posts, users, friends 
-    WHERE users.id = posts.user_id 
+
+    $result = $conn->prepare('SELECT * FROM posts, users, friends
+    WHERE users.id = posts.user_id
     AND users.id = friends.user_id_friend
     AND friends.user_id = :id
     ORDER BY posts.time DESC LIMIT 2');
     $result->bindParam(':id', $id);
     $result->execute();
     $resultOfPosts = $result->fetchAll();
+
     /*
     user_id		    = mijn id           // LINK users.id = friends.user_id
     user_id_friend	= user id die ik volg = vriend // LINK users.id = friends.user_id_friend
     status			= 1 = vriend / 0 = “ont-vriend”
     */
 
-    // FEATURE 6 - SEARCH
-    $countRows = 0;
-    if (!empty($_GET['searchInput'])) {
-        // gets input from search
-        $searchInput = $_GET['searchInput'];
-
-        // minimum length of searchInput
-        $min_length = 2;
-
-        if (strlen($searchInput) >= $min_length) {
-            // htmlspecialchars() tegen XSS attack > changes characters to equivalents like < to &gt;
-            $searchInput = htmlspecialchars($searchInput);
-
-            // real_escape_string() tegen SQL injection
-            //$searchInput = real_escape_string($searchInput);
-
-            // items = table name in db
-            $statement = $conn->prepare("SELECT * FROM posts, users WHERE users.id = posts.user_id AND description LIKE '%$searchInput%' ORDER BY users.id DESC LIMIT 10");
-
-            // title, username zoeken?
-            $statement->execute();
-            $resultInput = $statement->fetchAll();
-            //print_r($resultInput); // print hele array van resultaat
-
-            $counter = $conn->prepare("SELECT COUNT(*) FROM posts, users WHERE users.id = posts.user_id AND description LIKE '%$searchInput%'");
-            $counter->execute();
-            $countRows = $counter->fetchColumn();  // OR  $countRows = $statement->rowCount();
-        } else { // if searchInput length is less than minimum
-            $error = 'Minimum length is '.$min_length;
-        }
-    }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -122,55 +94,21 @@
 
     <!--  FEATURE  2  inloggen & uitloggen -->
     <a href="logout.php">Logout</a>
-
     <!-- FEATURE 6 - SEARCH -->
-    <div class="form form--search">
-        <form action="" method="GET">
-            <div class="form__field">
-                <input type="text" name="searchInput" placeholder="search" />
-                <!-- <input type="submit" value="Search" class="btn btn--primary" /> -->
-            </div>
-        </form>
-        <?php if (isset($error)): ?>
-        <div class="form__error">
-            <?php echo '⛔️'.$error; ?>
-        </div>
-        <?php endif; ?>
-    </div>
-
-    <div>
-        <?php
-        if (!empty($_GET['searchInput'])) {
-            if ($countRows > 0) {
-                // let user know if we found search results
-                echo '<h3> We found '.$countRows.' results for '.$searchInput.'</h3>';
-                // show search results
-                foreach ($resultInput as $r => $row) {
-                    //echo  '<a href="'.$link['foto'].'">'.$link['tags'].'</a></br>';
-
-                    echo "<div class='".$row['filter']."'><img src='postImages/".$row['image']."'> </div>";
-                    echo '<p><strong>'.$row['username'].'</strong></p>';
-                    echo '<p>'.$row['description'].'</p>';
-                }
-            } else { // if there is no matching rows do following
-                echo '<h3> We found no results for '.$searchInput.'</h3>';
-                $error = 'We found no results for '.$searchInput;
-            }
-        } else {
-            $error = 'First enter what you want to look for.';
-        }
-        ?>
-    </div>
+    <a href="search.php" id="item4"><img src="search.png" alt="search"><p>search</p></a> 
 
     <!-- FEATURE 5 - load 20 images of friends on index  -->
     <div class="feed">
         <h1>Feed</h1>
 
-        <?php
+    <?php
     /* FEATURE 13 - wanneer foto opgeladen in de databank ? > toon hoe lang geleden
     (vb: 1 uur geleden, een half uur geleden, zonet, gisteren 12u54)
     */
     $currentTime = time();   // NOW
+
+    //if (count($posts) > 0):
+    //foreach ($posts as $row):
 
     foreach ($resultOfPosts as $r => $row):
        // FEATURE 13
@@ -228,17 +166,22 @@
 
       echo '</div>';
       //var_dump($row); // TESTEN
-  ?>
-        <?php endforeach;
-        //endif;
-        //if (empty($resultOfPosts)) {    echo 'Oops, no posts yet. '; }
-        ?>
 
+  ?>
+
+        <?php endforeach;
+        /* else:
+            echo 'Oops, no posts yet.';
+       / endif; */
+    ?>
     </div>
     <!-- FEATURE 7 - loadMore  -->
     <div id="loadMore">
-        <a class="loadMore" href=""> " >load more</a>
+		<ul id="results"><!-- results in a list --></ul>
     </div>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript" src="loadmore.js"></script>
 </body>
 
 </html>
