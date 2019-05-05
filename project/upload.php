@@ -6,6 +6,11 @@
   // Create database connection
   $conn = Db::getInstance();
 
+  // overzicht geuploade img
+  $result = $conn->prepare('SELECT * FROM posts, users WHERE users.id = posts.user_id LIMIT 20');
+  $result->execute();
+  $result = $result->fetchAll();
+
   // If upload button is clicked ...
   if (isset($_POST['upload'])) {
       // Get image name
@@ -18,10 +23,6 @@
       $target = 'postImages/'.basename($image);
       $statement = $conn->prepare("INSERT INTO posts (image, description, filter) VALUES ('$image', '$description', '$filter')");
       $statement->execute();
-
-      $result = $conn->prepare('SELECT * FROM posts LIMIT 20');
-      $result->execute();
-      $result = $result->fetchAll();
 
       // Initialize message variable
       $msg = '';
@@ -38,6 +39,7 @@
   <title>Upload</title>
   <style type="text/css">
     body {
+      font-family: Helvetica, sans-serif;
       margin: 20px auto;
       text-align: center;
     }
@@ -62,19 +64,12 @@
     }
 
     h1 {
-      font-family: sans-serif;
       text-align: center;
       margin-bottom: 50px;
     }
-
-    p {
-      font-family: sans-serif;
-    }
-
-    .btn {}
   </style>
-  <!-- link rel="stylesheet" href="https://cssgram-cssgram.netdna-ssl.com/cssgram.min.css">
--->
+  <link rel="stylesheet" href="https://cssgram-cssgram.netdna-ssl.com/cssgram.min.css">
+
 </head>
 
 <body>
@@ -186,11 +181,14 @@
         }
 
       // feature 4
-      echo "<div id='img_div'> "; /* class=". $row['filter']*/ /* feature 16 filter op foto met CSSGram  */
-          echo "<img src='postImages/".$row['image']."'>";
+      echo "<div id='img_div'> ";
+          /* feature 16 filter op foto met CSSGram  // class='".$row['filter']  */
+          echo "<div class='".$row['filter']."'><img src='postImages/".$row['image']."'> </div>";
+          echo '<p><strong>'.$row['username'].'</strong></p>';
           echo '<p>'.$row['description'].'</p>';
           echo '<p>'.$timeStatus.'</p>'; // feature 13
           echo '<p>'.$row['filter'].'</p>'; // feature 16
+
       echo '</div>';
       //var_dump($row); // TESTEN
   ?>
@@ -199,6 +197,5 @@
   //endif;
   //if (empty($result)) {    echo 'Oops, no posts yet. '; }
   ?>
-</body>
-
+</body>   
 </html>
