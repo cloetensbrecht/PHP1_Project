@@ -3,14 +3,90 @@
     require_once('Security.class.php'); 
 
     class User{
+        private $username;
+        private $firstname;
+        private $lastname;
         private $email;
         private $password;
         private $passwordConfirmation;
-        private $id;
 
         // setters
+        /**
+         * Get the value of username
+         */ 
+        public function getUsername()
+        {
+                return $this->username;
+        }
+
+        /**
+         * Set the value of username
+         *
+         * @return  self
+         */ 
+        public function setUsername($username)
+        {
+                $this->username = $username;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of firstname
+         */ 
+        public function getFirstname()
+        {
+                return $this->firstname;
+        }
+
+        /**
+         * Set the value of firstname
+         *
+         * @return  self
+         */ 
+        public function setFirstname($firstname)
+        {
+                $this->firstname = $firstname;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of lastname
+         */ 
+        public function getLastname()
+        {
+                return $this->lastname;
+        }
+
+        /**
+         * Set the value of lastname
+         *
+         * @return  self
+         */ 
+        public function setLastname($lastname)
+        {
+                $this->lastname = $lastname;
+
+                return $this;
+        }
+
+
+
         public function setEmail($email){
+            
+            // check if e-mail address is well-formed
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $emailErr = "Invalid email format"; 
+            }
+            
+            
+            
+            
             $this->email = $email;
+
+            
+
             return $this;
         }
 
@@ -41,7 +117,10 @@
             $password = Security::hash($this->password);
             try {
                 $conn = Db::getInstance();
-                $statement = $conn->prepare('INSERT INTO users (email, password) VALUE (:email, :password);');
+                $statement = $conn->prepare('INSERT INTO users (firstname, lastname, username, email, password) VALUE (:firstname, :lastname, :username, :email, :password)');
+                $statement->bindParam(":firstname", $this->firstname);
+                $statement->bindParam(":lastname", $this->lastname);
+                $statement->bindParam(":username", $this->username);
                 $statement->bindParam(":email", $this->email);
                 $statement->bindParam(":password", $password);
                 $result = $statement->execute();
@@ -89,6 +168,12 @@
             } 
         }
 
+
+        
+
+        
+
+        
     }
 
 

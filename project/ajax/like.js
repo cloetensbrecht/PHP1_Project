@@ -4,7 +4,7 @@ $(document).ready(() => {
         $post = $(this);
 
         $.ajax({
-            url: '/like.php',
+            url: 'ajax/like.php',
             method: 'POST',
             data: {
                 'liked': 1,
@@ -22,8 +22,9 @@ $(document).ready(() => {
         let postid = $(this).data('id');
         $post = $(this);
 
+
         $.ajax({
-            url: '/like.php',
+            url: 'ajax/like.php',
             method: 'POST',
             data: {
                 'unliked': 1,

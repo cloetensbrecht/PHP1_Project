@@ -75,6 +75,27 @@
    .btn{
        
    }
+   .hide {
+        display: none;
+      }
+   .likes {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+      }
+
+      span.like-btn {
+        cursor: pointer;
+        padding: 10px;
+        font-size: 2em;
+        color: red;
+      }
+
+      span.likes-count {
+        text-decoration: none;
+        color: #333;
+      }
 </style>
 </head>
 <body>
@@ -106,11 +127,11 @@
       echo "</div>";
     }
 */
-    foreach ($result as $r => $row) {
+    foreach ($result as $r) {
      // echo  '<a href="'.  $link['foto'].'">' . $link['tags']. '</a></br>';
       echo "<div id='img_div'>";
-      	echo "<img src='images/".$row['image']."' >";
-      	echo "<p>".$row['description']."</p>";
+      	echo "<img src='images/".$r['image']."' >";
+      	echo "<p>".$r['description']."</p>";
       echo "</div>";?>
 
       <div class="likes">
@@ -150,7 +171,7 @@
     
     
     ?>
-
+<?php
 
     /* orig
     while ($row = mysqli_fetch_array($result)) { 
@@ -161,5 +182,8 @@
       }
     */
   ?>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script src="ajax/like.js"></script>
+  
 </body>
 </html>

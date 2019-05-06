@@ -1,14 +1,13 @@
 <?php  
 
     require_once("../bootstrap.php");
-    Session::check();
 
     if (isset($_POST['liked'])) {
         $postid = $_POST['postid'];
-        $userid = $_SESSION['userID'];
+        $userid = $_SESSION['id'];
 
         $conn = Db::getInstance();
-        $statement = $conn->prepare("SELECT * FROM likes_post WHERE post_id = '$postid' AND active = '1'");
+        $statement = $conn->prepare("SELECT * FROM likes WHERE post_id = '$postid' AND active = '1'");
         $statement->execute();
         $result = $statement->fetchAll();
 
@@ -16,7 +15,7 @@
         $timestamp = date('Y-m-d H:i:s');
 
         $conn = Db::getInstance();
-        $statement = $conn->prepare("INSERT INTO likes_post (user_id, post_id, active) VALUES ($userid, $postid, 1)");
+        $statement = $conn->prepare("INSERT INTO likes (user_id, post_id, active) VALUES ($userid, $postid, 1)");
         $statement->execute();
 
         $likes = count($result)+1;
@@ -25,15 +24,15 @@
 
     if (isset($_POST['unliked'])) {
         $postid = $_POST['postid'];
-        $userid = $_SESSION['userID'];
+        $userid = $_SESSION['id'];
 
         $conn = Db::getInstance();
-        $statement = $conn->prepare("SELECT * FROM likes_post WHERE post_id = '$postid' AND active = '1'");
+        $statement = $conn->prepare("SELECT * FROM likes WHERE post_id = '$postid' AND active = '1'");
         $statement->execute();
         $result = $statement->fetchAll();
     
         $conn = Db::getInstance();
-        $update = $conn->prepare("DELETE FROM likes_post WHERE user_id = '$userid' AND post_id = '$postid'");
+        $update = $conn->prepare("DELETE FROM likes WHERE user_id = '$userid' AND post_id = '$postid'");
         $update->execute();
 
         $likes = count($result)-1;

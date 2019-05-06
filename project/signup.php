@@ -2,9 +2,12 @@
 
 require_once("bootstrap.php");
 
-  if(!empty($_POST)){
+  if(!empty($_POST) && !empty($_POST['password'] && $_POST['password_confirmation'] )){
 		$user = new User();
 
+		$firstname = $_POST['firstname'];
+		$lastname = $_POST['lastname'];
+		$username = $_POST['username'];
 		$email = $_POST['email'];
 		$password = $_POST['password'];
 		$passwordComfirmation = $_POST['password_confirmation'];
@@ -12,6 +15,9 @@ require_once("bootstrap.php");
 		// You can register if password = passworfComfirmation
 		if($password == $passwordComfirmation) {
 			// GET & SET gegevens formulier
+			$user->setFirstname($firstname);
+			$user->setLastname($lastname);
+			$user->setUsername($username);
 			$user->setEmail($email);
 			$user->setPassword($password);
 			$user->setPasswordConfirmation($passwordComfirmation);
@@ -51,9 +57,25 @@ require_once("bootstrap.php");
 					</div>
 				<?php endif; ?>
 
+
+				<div class="form__field">
+					<label for="firstname">Firstname</label>
+					<input type="text" id="firstname" name="firstname">
+				</div>
+
+				<div class="form__field">
+					<label for="lastname">Lastname</label>
+					<input type="text" id="lastname" name="lastname">
+				</div>
+
+				<div class="form__field">
+					<label for="username">Username</label>
+					<input type="text" id="username" name="username">
+				</div>
+
 				<div class="form__field">
 					<label for="email">Email</label>
-					<input type="mail" id="email" name="email">
+					<input type="text" id="email" name="email">
 				</div>
 				<div class="form__field">
 					<label for="password">Password</label>

@@ -3,7 +3,7 @@
 Class Post {
     public static function like($userID, $postID) {
     $conn = Db::getInstance();
-    $statement = $conn->prepare("SELECT * FROM likes_post WHERE user_id = '$userID' AND post_id = '$postID'");
+    $statement = $conn->prepare("SELECT * FROM likes WHERE user_id = '$userID' AND post_id = '$postID'");
     $statement->execute();
     $result = $statement->fetch(PDO::FETCH_ASSOC);
 
@@ -12,7 +12,7 @@ Class Post {
 
   public static function likeCount($postID) {
     $conn = Db::getInstance();
-    $statement = $conn->prepare("SELECT * FROM likes_post WHERE post_id = '$postID' AND active = '1'");
+    $statement = $conn->prepare("SELECT * FROM likes WHERE post_id = '$postID' AND active = '1'");
     $statement->execute();
     $result = $statement->fetchAll();
     
