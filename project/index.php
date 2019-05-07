@@ -85,13 +85,15 @@
       margin-bottom: 50px;
     }
   </style>
-    <title>Inspiration Hunter</title>
+    
 </head>
 
 <body>
-    <h1>Inspiration Hunter</h1>
-    <p>Dit onderdeel wordt later nog aangevuld.</p>
-    <br>
+    
+<header>
+
+    <!-- FEATURE 6 - SEARCH -->
+    <a href="search.php" id="item4"><img src="https://image.flaticon.com/icons/svg/149/149852.svg" alt="search">search</a> 
 
     <!--  FEATURE 4 -  POST foto met beschrijving -->
     <a href="upload.php">New Post</a>
@@ -101,9 +103,13 @@
 
     <!--  FEATURE  2  inloggen & uitloggen -->
     <a href="logout.php">Logout</a>
-    <!-- FEATURE 6 - SEARCH -->
-    <a href="search.php" id="item4"><img src="search.png" alt="search"><p>search</p></a> 
+    
 
+</header>
+<title>Inspiration Hunter</title>
+<h1>Inspiration Hunter</h1>
+    <p>Dit onderdeel wordt later nog aangevuld.</p>
+    <br>
     <!-- FEATURE 5 - load 20 images of friends on index  -->
     <div class="feed">
         <h1>Feed</h1>

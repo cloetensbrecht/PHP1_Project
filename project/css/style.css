@@ -4,7 +4,7 @@
     margin: 0;
     border: 0;
     font-family: Helvetica, sans-serif;
-    background-color: aqua;
+    background-color: #fff ;
 }
 
 body {
@@ -18,7 +18,21 @@ div.form__error {
     border: 1px solid red;
 }
 
+a {
+    padding: 5px;
+    color: white;
 
+}
+
+#item4 {
+    width: 20%;
+}
+
+header{
+ background-color: burlywood;
+ text-align: right;
+ 
+}
 
 #img_div {
     text-align: center;
@@ -35,8 +49,8 @@ div.form__error {
 
 img {
     margin: 5px;
-    width: 300px;
-    height: 300px;
+    width: 30px;
+    height: 30px;
 }
 
 h1 {
@@ -49,4 +63,3 @@ p {
     font-family: sans-serif;
 }
 
-.btn {}
