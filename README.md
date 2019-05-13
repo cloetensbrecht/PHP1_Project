@@ -2,7 +2,7 @@
 
 TEAM: Kasper Okens, Saul Wauters & Eleni Bosschaerts
 
-PROJECTNAAM:  
+PROJECTNAAM:  Travel Inspiration
 
 GIT: [github.com/EleniBosschaerts/PHP1_Project](github.com/EleniBosschaerts/PHP1_Project)
 
