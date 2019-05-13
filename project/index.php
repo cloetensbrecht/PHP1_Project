@@ -1,48 +1,27 @@
 <?php
     require_once 'bootstrap.php';
-    include_once 'loadmorePosts.php';
 
     if (!isset($_SESSION['id'])) {
         header('location: login.php');
     }
 
-    // info ophalen uit db
-    $emailCheck = $_SESSION['id'];
-
-    $conn = Db::getInstance(); // db connection
-    $result = $conn->prepare('SELECT * FROM users WHERE email= :email;');
-    $result->bindParam(':email', $emailCheck);
-    $result->execute();
-    $resultOfUsers = $result->fetchAll();
-
-    // GET ID uit EMAIL
-    $id = null;
-    foreach ($resultOfUsers as $res => $r) {
-        $id = $r['id'];
-    }
-
-    // FEATURE 7 - loadMore
+    // id ophalen uit db
+    $id = User::getId();
 
     /* FEATURE 5 - laatste 20 posts  */
     // overzicht geuploade img
+    $posts = Post::getAll();
 
-    $result = $conn->prepare('SELECT * FROM posts, users, friends
-    WHERE users.id = posts.user_id
-    AND users.id = friends.user_id_friend
-    AND friends.user_id = :id
-    ORDER BY posts.time DESC LIMIT 2');
-    $result->bindParam(':id', $id);
-    $result->execute();
-    $resultOfPosts = $result->fetchAll();
+    // FEATURE 6 - SEARCH
+    $search = new Search();
+    $searchInput = $search->checkSearchInput();
+    $searchResults = $search->searchResultsFormDb();
+    $searchResultsCount = $search->countSearchResultsFormDb();
 
-    /*
-    user_id		    = mijn id           // LINK users.id = friends.user_id
-    user_id_friend	= user id die ik volg = vriend // LINK users.id = friends.user_id_friend
-    status			= 1 = vriend / 0 = “ont-vriend”
-    */
-
-?>
-<!DOCTYPE html>
+    // FEATURE 7 - loadMore
+    // count number of posts
+    $postCount = count($posts); // ! let op met limit
+?><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -50,6 +29,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <link rel="stylesheet" href="https://cssgram-cssgram.netdna-ssl.com/cssgram.min.css">
+    <!-- script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
     <style type="text/css">
     body {
       font-family: Helvetica, sans-serif;
@@ -75,31 +57,68 @@
     }
 
     h1 {
-      margin-bottom: 50px;
+      margin: 20px 0;
     }
   </style>
-    <title>Inspiration Hunter</title>
+    <title>Travel Inspiration</title>
 </head>
 
 <body>
-    <h1>Inspiration Hunter</h1>
-    <p>Dit onderdeel wordt later nog aangevuld.</p>
-    <br>
+    <h1>Travel Inspiration</h1>
 
     <!--  FEATURE 4 -  POST foto met beschrijving -->
-    <a href="upload.php">New Post</a>
+    <a href="upload.php">New Post</a> |
+ 
+    <!--  FEATURE 3 - profiel aanpassen -->
+    <a href='updateProfile.php?id=<?php echo $id; ?>'>Edit profile</a> |
 
-    <!--  FEATURE 3 - profiel aanpassen  -->
-    <?php echo "<a href='updateProfile.php?id=".$id."'>Edit profile</a>"; ?>
+    <!--  FEATURE 3 - profiel aanpassen - password  -->
+    <a href='updatePassword.php?id=<?php echo $id; ?>'>Edit password</a> |
 
     <!--  FEATURE  2  inloggen & uitloggen -->
     <a href="logout.php">Logout</a>
+
     <!-- FEATURE 6 - SEARCH -->
-    <a href="search.php" id="item4"><img src="search.png" alt="search"><p>search</p></a> 
+    <div class="form form--search">
+        <form action="" method="GET" name='search'>
+            <div class="form__field">
+                <input type="text" name="searchInput" value="" placeholder="search" />
+            </div>
+        </form>
+        <?php if (isset($error)): ?>
+        <div class="form__error">
+            <?php //echo '⛔️'.$search->checkSearchInputLength(); // $error;?>
+        </div>
+        <?php endif; ?>
+    </div>
+
+    <div>
+        <?php
+        if ($search->checkSearchInputLength() === 2) {
+            echo $search->showMessageSearchResults();
+        } elseif (!$searchResultsCount) { // if there is no matching row
+            echo $search->showMessageSearchResults();
+        } elseif ($searchResultsCount >= 1) { // search result are found //&& $search->checkSearchInputLength() === true // === 1)
+            // let user know if we found search results
+            echo '<h2>Search Results</h2>';
+            echo $search->showMessageSearchResults();
+            // show search results
+            foreach ($searchResults as $row) {
+                echo "<div class='".$row['filter']."'><img src='postImages/".$row['image']."'> </div>";
+                echo '<p><strong>'.$row['username'].'</strong></p>';
+                echo '<p>'.$row['description'].'</p>';
+            }
+            echo '<br>';
+        } else {
+            echo $search->showMessageSearchResults();
+        }
+
+        ?>
+    </div>
 
     <!-- FEATURE 5 - load 20 images of friends on index  -->
     <div class="feed">
-        <h1>Feed</h1>
+        <h2>Feed</h2>
 
     <?php
     /* FEATURE 13 - wanneer foto opgeladen in de databank ? > toon hoe lang geleden
@@ -110,7 +129,7 @@
     //if (count($posts) > 0):
     //foreach ($posts as $row):
 
-    foreach ($resultOfPosts as $r => $row):
+    foreach ($posts as $r => $row):
        // FEATURE 13
         $timeOfPost = strtotime($row['time']); // uit databank de tijd halen
         $timeStatus = '';
@@ -178,10 +197,15 @@
     <!-- FEATURE 7 - loadMore  -->
     <div id="loadMore">
 		<ul id="results"><!-- results in a list --></ul>
+        <button id="load--more">Load More</button>
+        <input type="hidden" id="row" value="0">
+        <input type="hidden" id="all" value="<?php echo $postCount; ?>">
     </div>
-
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script type="text/javascript" src="loadmore.js"></script>
+    <?php
+   //var_dump($row);
+   //var_dump($html);
+   //var_dump($resultOfPosts);
+?>
 </body>
 
 </html>
