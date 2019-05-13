@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 07 mei 2019 om 14:10
+-- Gegenereerd op: 24 apr 2019 om 19:46
 -- Serverversie: 10.1.38-MariaDB
--- PHP-versie: 7.3.3
+-- PHP-versie: 7.3.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -21,27 +21,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `inspirationhunter`
 --
-
--- --------------------------------------------------------
-
---
--- Tabelstructuur voor tabel `comment`
---
-
-CREATE TABLE `comment` (
-  `comment_id` int(11) NOT NULL,
-  `parent_comment_id` int(11) NOT NULL,
-  `comment` varchar(200) NOT NULL,
-  `poster_name` varchar(40) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Gegevens worden geëxporteerd voor tabel `comment`
---
-
-INSERT INTO `comment` (`comment_id`, `parent_comment_id`, `comment`, `poster_name`, `date`) VALUES
-(1, 0, 'this is a test comment ', 'tester', '2019-05-07 12:01:20');
 
 -- --------------------------------------------------------
 
@@ -84,21 +63,8 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Gegevens worden geëxporteerd voor tabel `users`
---
-
-INSERT INTO `users` (`id`, `username`, `email`, `password`) VALUES
-(1, '', 'test@gmail.com', '$2y$12$CYxFdRnEjXx3BVyD.0cFoOLBqxny97bkVf9MUzUXjRxbnVM/tv/t6');
-
---
 -- Indexen voor geëxporteerde tabellen
 --
-
---
--- Indexen voor tabel `comment`
---
-ALTER TABLE `comment`
-  ADD PRIMARY KEY (`comment_id`);
 
 --
 -- Indexen voor tabel `images`
@@ -123,12 +89,6 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT voor een tabel `comment`
---
-ALTER TABLE `comment`
-  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
 -- AUTO_INCREMENT voor een tabel `images`
 --
 ALTER TABLE `images`
@@ -144,7 +104,7 @@ ALTER TABLE `items`
 -- AUTO_INCREMENT voor een tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -132,51 +132,50 @@
     (vb: 1 uur geleden, een half uur geleden, zonet, gisteren 12u54)
     */
     $currentTime = time();   // NOW
-    
-    /* feature 4 - foto posten met beschrijving */
-    //if(!empty($result)):
-   
-      foreach ($result as $r => $row):
+
+    /* FEATURE 4 - foto posten met beschrijving */
+    //if (!empty($result)):
+    foreach ($result as $r => $row):
 
        // FEATURE 13
         $timeOfPost = strtotime($row['time']); // uit databank de tijd halen
         $timeStatus = '';
         $seconds = $currentTime - $timeOfPost;
-        $minutes = (int)floor($seconds / 60);
-        $hours = (int)floor($minutes / 60);
-        $days = (int)floor($hours / 24);
+        $minutes = (int) floor($seconds / 60);
+        $hours = (int) floor($minutes / 60);
+        $days = (int) floor($hours / 24);
 
-        // hoelang geleden - tijd bepalen 
-        if ($seconds <60) {
-          $timeStatus = "now";
-        } else if ($minutes == 1) {
-            $timeStatus = "a minute ago";
-        } else if ($minutes == 2) {
-            $timeStatus = "two minutes ago";
-        } else if ($minutes == 3) {
-            $timeStatus = "three minutes ago";
-        } else if ($minutes <15) {
-            $timeStatus = "less than fifteen minutes ago";
-        } else if ($minutes == 15) {
-            $timeStatus = "fifteen minutes ago";
-        } else if ($minutes <30) {
-            $timeStatus = "less than half an hour ago";
-        } else if ($minutes == 30) {
-            $timeStatus = "half an hour ago";
-        } else if ($hours <1) {
-            $timeStatus = "less than an hour ago";
-        } else if ($hours == 1) {
-            $timeStatus = "an hour ago";
-        } else if ($hours == 2) {
-            $timeStatus = "two hours ago";
-        } else if ($hours == 3) {
-            $timeStatus = "three hours ago";
-        } else if ($days <1) {
-            $timeStatus = "less than a day ago";
-        } else if ($days == 1 && $seconds> 1) {
-            $timeStatus = "yesterday";
-        } else if ($days == 2 && $seconds> 1) {
-            $timeStatus = "2 days ago";
+        // hoelang geleden - tijd bepalen
+        if ($seconds < 60) {
+            $timeStatus = 'now';
+        } elseif ($minutes == 1) {
+            $timeStatus = 'a minute ago';
+        } elseif ($minutes == 2) {
+            $timeStatus = 'two minutes ago';
+        } elseif ($minutes == 3) {
+            $timeStatus = 'three minutes ago';
+        } elseif ($minutes < 15) {
+            $timeStatus = 'less than fifteen minutes ago';
+        } elseif ($minutes == 15) {
+            $timeStatus = 'fifteen minutes ago';
+        } elseif ($minutes < 30) {
+            $timeStatus = 'less than half an hour ago';
+        } elseif ($minutes == 30) {
+            $timeStatus = 'half an hour ago';
+        } elseif ($hours < 1) {
+            $timeStatus = 'less than an hour ago';
+        } elseif ($hours == 1) {
+            $timeStatus = 'an hour ago';
+        } elseif ($hours == 2) {
+            $timeStatus = 'two hours ago';
+        } elseif ($hours == 3) {
+            $timeStatus = 'three hours ago';
+        } elseif ($days < 1) {
+            $timeStatus = 'less than a day ago';
+        } elseif ($days == 1 && $seconds > 1) {
+            $timeStatus = 'yesterday';
+        } elseif ($days == 2 && $seconds > 1) {
+            $timeStatus = 'the day before yesterday';
         } else {
             $timeStatus = date('d / m / Y', time() - $seconds);
         }
