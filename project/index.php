@@ -11,6 +11,7 @@
     /* FEATURE 5 - laatste 20 posts  */
     // overzicht geuploade img
     $posts = Post::getAll();
+    //$posts = Post::getPostInfo();
 
     // FEATURE 6 - SEARCH
     $search = new Search();
@@ -21,6 +22,16 @@
     // FEATURE 7 - loadMore
     // count number of posts
     $postCount = count($posts); // ! let op met limit
+
+    // FEATURE 13 - tijd geleden
+
+    /*
+    $post = new Post();
+    var_dump(Post::getTimeNow());
+
+    $timeStatus = $post->timeStatus(); */
+    //$timeStatus = Post::timeStatus();
+
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -130,10 +141,15 @@
     //foreach ($posts as $row):
 
     foreach ($posts as $r => $row):
-       // FEATURE 13
+
+       // FEATURE 13 - tijd geleden
+
+       //$post->setTime = ($row['time']);
+
         $timeOfPost = strtotime($row['time']); // uit databank de tijd halen
         $timeStatus = '';
         $seconds = $currentTime - $timeOfPost;
+
         $minutes = (int) floor($seconds / 60);
         $hours = (int) floor($minutes / 60);
         $days = (int) floor($hours / 24);
@@ -174,7 +190,9 @@
         }
 
       // FEATURE 4
-      echo "<div id='img_div'> "; /* class=". $row['filter']*/ /* FEATURE 16 filter op foto met CSSGram  */
+      echo "<div id='img_div ".$row['id'].'> ';
+
+      /* class=". $row['filter']*/ /* FEATURE 16 filter op foto met CSSGram  */
       //echo "<div id='img_div' class=".$row['filter']."'>"; /* class=". $row['filter']*/ /* FEATURE 16 filter op foto met CSSGram  */
 
           echo "<div class='".$row['filter']."'><img src='postImages/".$row['image']."'> </div>";
