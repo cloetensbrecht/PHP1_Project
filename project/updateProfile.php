@@ -21,12 +21,9 @@
     echo $_SESSION['id'];
     echo $id;
 
-    if (!empty($_POST)) {
-        // check pw
-        $user = new User();
-        $user->setPassword($_POST['CurrentPassword']);
-        $error = $user->canLogin();
+    $profile = new User();
 
+    if (!empty($_POST)) {
         // keep track validation errors
         $firstNameError = null;
         $lastNameError = null;
@@ -36,7 +33,7 @@
         $bioError = null;
         $profilePictureError = null;
 
-        $passwordError = null; // for NewPassword & CurrentPassword
+        $CurrentPasswordError = null; // for NewPassword & CurrentPassword
 
         // keep track post values
         $firstName = $_POST['firstName'];
@@ -45,10 +42,20 @@
         $username = $_POST['username'];
         $mobile = $_POST['mobile'];
         $bio = $_POST['bio'];
-        $profilePicture = $_FILES['profilePicture'];
+        $profilePicture = $_POST['profilePicture'];
+        //$profilePicture = $_FILES['profilePicture'];
         //$password = $_POST['password'];
         //$NewPassword = $_POST['NewPassword'];
         $CurrentPassword = $_POST['CurrentPassword'];
+
+        // to setters
+        $profile->setFirstName = ($_POST['firstName']);
+        $profile->setLastName = ($_POST['lastName']);
+        $profile->setEmail = ($_POST['email']);
+        $profile->setUsername = ($_POST['username']);
+        $profile->setMobile = ($_POST['mobile']);
+        $profile->setBio = ($_POST['bio']);
+        $profile->setProfilePicture($_POST['profilePicture']);
 
         // validate input
         $valid = true;
@@ -88,31 +95,47 @@
             $valid = false;
         }
 
+        if (empty($CurrentPassword)) {
+            $CurrentPasswordError = 'Please enter your current password';
+            $valid = false;
+        } elseif (!empty($CurrentPassword)) {
+            // check pw
+            $valid = false;
+            // FOUT ZIT HIER ?
+            $CurrentPasswordCorrect = $profile->passwordCorrect();
+            if ($CurrentPasswordCorrect = false) {
+                $CurrentPasswordError = 'Something went wrong, your password are wrong. Try again.';
+                $valid = false;
+            } elseif ($CurrentPasswordCorrect = true) {
+                $valid = true; // NU PAS gegevens updaten
+            }
+        }
+
         // update data
         if ($valid) {
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $sql = 'UPDATE users set firstName = ?, lastName = ?, email = ?, mobile =?, bio=? , profilePicture=? , username=? WHERE id = ?';
             $q = $conn->prepare($sql);
             $q->execute(array($firstName, $lastName, $email, $mobile, $bio, $profilePicture, $username, $id));
+
+            //$update = $profile->validFormUpdateData();
+
             //Database::disconnect();
-            header('Location: index.php');
+            //header('Location: index.php');
+            echo 'IT WORKS 🔥 TO index';
         }
     } else {
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = 'SELECT * FROM users where id = ?';
-        $q = $conn->prepare($sql);
-        $q->execute(array($id));
-        $data = $q->fetch(PDO::FETCH_ASSOC);
+        // data ophalen uit db en invullen in de velden
+        $data = $profile->getProfileInfo();
+
         $firstName = $data['firstName'];
         $lastName = $data['lastName'];
         $email = $data['email'];
         $mobile = $data['mobile'];
+        // Q - Waarom worden de velden bio en profilePicture niet ingevuld.
         $bio = $data['bio'];
         $profilePicture = $data['profilePicture'];
-        //$NewPassword = $data['NewPassword'];
-        //$CurrentPassword = $data['CurrentPassword'];
         $username = $data['username'];
-        //Database::disconnect();
     }
 ?>
 <!DOCTYPE html>
@@ -209,12 +232,12 @@
                 <!-- protect profile - pw -->
                 <h3>Current password</h3>
                 <p>To change profile information, you must enter the current password.</p>
-                <div class="control-group <?php echo !empty($passwordError) ? 'error' : ''; ?>">
+                <div class="control-group <?php echo !empty($CurrentPasswordError) ? 'error' : ''; ?>">
                     <label class="control-label">Current Password</label>
                     <div class="controls">
-                        <input name="CurrentPassword" type="text" placeholder="********" required>
-                        <?php if (!empty($passwordError)): ?>
-                        <span class="help-inline"><?php echo $passwordError; ?></span>
+                        <input name="CurrentPassword" type="password" placeholder="********">
+                        <?php if (!empty($CurrentPasswordError)): ?>
+                        <span class="help-inline"><?php echo $CurrentPasswordError; ?></span>
                         <?php endif; ?>
                     </div>
                 </div>
