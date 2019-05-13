@@ -4,13 +4,12 @@
     margin: 0;
     border: 0;
     font-family: Helvetica, sans-serif;
-    background-color: aqua;
 }
 
 body {
 
     margin: 20px auto;
-    text-align: center;
+    /*text-align: center;*/
 }
 
 div.form__error {
@@ -21,7 +20,7 @@ div.form__error {
 
 
 #img_div {
-    text-align: center;
+    /*text-align: center;*/
     padding: 5px;
     margin: 15px auto;
 
@@ -41,7 +40,7 @@ img {
 
 h1 {
     font-family: sans-serif;
-    text-align: center;
+    /*text-align: center;*/
     margin-bottom: 50px;
 }
 
