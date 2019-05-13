@@ -1,34 +1,37 @@
+<!--  FEATURE 4 -  POST foto met beschrijving --> 
 <?php
-  require_once("bootstrap.php"); 
+
+  require_once 'bootstrap.php';
 
   // Create database connection
-  $conn = Db::getInstance(); 
-  
+  $conn = Db::getInstance();
+
+  // overzicht geuploade img
+  $result = $conn->prepare('SELECT * FROM posts, users WHERE users.id = posts.user_id LIMIT 20');
+  $result->execute();
+  $result = $result->fetchAll();
+
   // If upload button is clicked ...
   if (isset($_POST['upload'])) {
-  	// Get image name
-  	$image = $_FILES['image']['name'];
-    // Get description text & filter
-    $description = $_POST['description'];
-    $filter = $_POST['filter'];
-       
-  	// image file directory
-  	$target = "postImages/".basename($image);
-    $statement = $conn->prepare("INSERT INTO posts (image, description, filter) VALUES ('$image', '$description', '$filter')"); 
-    $statement->execute(); 
+      // Get image name
+      $image = $_FILES['image']['name'];
+      // Get description text & filter
+      $description = $_POST['description'];
+      $filter = $_POST['filter'];
+      //$filter = 'test';
+      // image file directory
+      $target = 'postImages/'.basename($image);
+      $statement = $conn->prepare("INSERT INTO posts (image, description, filter) VALUES ('$image', '$description', '$filter')");
+      $statement->execute();
 
-    $result = $conn->prepare("SELECT * FROM posts");  
-    $result->execute();
-    $result = $result->fetchAll();
-
-    // Initialize message variable
-    $msg = "";
-  	if (move_uploaded_file($_FILES['image']['tmp_name'], $target)) {
-  		$msg = "Image uploaded successfully";
-  	}else{
-  		$msg = "Failed to upload image";
-       }
-    }
+      // Initialize message variable
+      $msg = '';
+      if (move_uploaded_file($_FILES['image']['tmp_name'], $target)) {
+          $msg = 'Image uploaded successfully';
+      } else {
+          $msg = 'Failed to upload image';
+      }
+  }
 ?>
 <!DOCTYPE html>
 <html>
@@ -36,17 +39,18 @@
   <title>Upload</title>
   <style type="text/css">
     body {
+      font-family: Helvetica, sans-serif;
       margin: 20px auto;
       text-align: center;
     }
-
+    
     #img_div {
       text-align: center;
       padding: 5px;
       margin: 15px auto;
 
     }
-
+    
     #img_div:after {
       content: "";
       display: block;
@@ -60,35 +64,29 @@
     }
 
     h1 {
-      font-family: sans-serif;
       text-align: center;
       margin-bottom: 50px;
     }
-
-    p {
-      font-family: sans-serif;
-    }
-
-    .btn {}
   </style>
   <link rel="stylesheet" href="https://cssgram-cssgram.netdna-ssl.com/cssgram.min.css">
+
 </head>
 
 <body>
-
+<!--  FEATURE 4 -  POST foto met beschrijving --> 
   <h1>Upload image</h1>
   <div id="content">
     <form method="post" action="upload.php" enctype="multipart/form-data">
-      <input type="hidden" name="size" value="1000000">
+      <input type="hidden" name="size" value="1000000" >
       <div>
-        <input type="file" name="image">
+        <input type="file" name="image" required>
       </div>
       <div class="description">
         <p>Description</p>
         <input type="text" id="description" name="description" style="width: 400px; padding-bottom: 50px;">
         <br />
       </div>
-      <!-- feature 16 filter op foto met CSSGram  -->
+      <!-- FEATURE 16 filter op foto met CSSGram  -->
       <div class="filter">
         <p>Filter</p>
         <select name="filter">
@@ -121,6 +119,8 @@
           <option value="X-pro II" class="xpro2">X-pro II</option>
         </select>
       </div>
+      <!-- -->
+
       <br />
       <div class="btn">
         <button type="submit" name="upload">Upload</button>
@@ -128,7 +128,7 @@
     </form>
   </div>
   <?php
-    /* feature 13 - wanneer foto opgeladen in de databank ? > toon hoe lang geleden 
+    /* FEATURE 13 - wanneer foto opgeladen in de databank ? > toon hoe lang geleden
     (vb: 1 uur geleden, een half uur geleden, zonet, gisteren 12u54)
     */
     $currentTime = time();   // NOW
@@ -138,9 +138,9 @@
    
       foreach ($result as $r => $row):
 
-       // feature 13
-        $timeOfPost = strtotime($row['time']); // uit databank de tijd halen 
-        $timeStatus = "";
+       // FEATURE 13
+        $timeOfPost = strtotime($row['time']); // uit databank de tijd halen
+        $timeStatus = '';
         $seconds = $currentTime - $timeOfPost;
         $minutes = (int)floor($seconds / 60);
         $hours = (int)floor($minutes / 60);
@@ -178,22 +178,25 @@
         } else if ($days == 2 && $seconds> 1) {
             $timeStatus = "2 days ago";
         } else {
-            $timeStatus = date ('d / m / Y', time () - $seconds);
+            $timeStatus = date('d / m / Y', time() - $seconds);
         }
 
-      // feature 4
-      echo "<div id='img_div' > "; /* class=". $row['filter']*/ /* feature 16 filter op foto met CSSGram  */
-      	echo "<img src='postImages/" . $row['image'] . ">";
-        echo "<p>".$row['description']."</p>";
-        echo "<p>".$timeStatus."</p>"; // feature 13
-      echo "</div>";
-  ?>
-  <?php endforeach; 
-  //endif;
-  /*if(empty($result)){
-    echo "Oops, no posts yet. ";
-  }*/
-  ?>
-</body>
+      // FEATURE 4
+      echo "<div id='img_div'> ";
+          /* FEATURE 16 filter op foto met CSSGram  // class='".$row['filter']  */
+          echo "<div class='".$row['filter']."'><img src='postImages/".$row['image']."'> </div>";
+          echo '<p><strong>'.$row['username'].'</strong></p>';
+          echo '<p>'.$row['description'].'</p>';
+          echo '<p>'.$timeStatus.'</p>'; // FEATURE 13
+          echo '<p>'.$row['filter'].'</p>'; // FEATURE 16
 
+      echo '</div>';
+      //var_dump($row); // TESTEN
+  ?>
+
+  <?php endforeach;
+  //endif;
+  //if (empty($result)) {    echo 'Oops, no posts yet. '; }
+  ?>
+</body>   
 </html>

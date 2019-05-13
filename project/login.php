@@ -1,15 +1,15 @@
-<?php 
-	require_once("bootstrap.php");
-	
-	// session 
-	if(isset($_SESSION["id"])){
-        header("location: index.php");
-	}
+<?php
+    require_once 'bootstrap.php';
 
-	// check mail & pw
-    if(!empty($_POST)){
-        $user = new User;
-        $user->setEmail($_POST["email"])->setPassword($_POST["password"]);
+    // session
+    if (isset($_SESSION['id'])) {
+        header('location: index.php');
+    }
+
+    // check mail & pw
+    if (!empty($_POST)) {
+        $user = new User();
+        $user->setEmail($_POST['email'])->setPassword($_POST['password']);
         $error = $user->canLogin();
     }
 ?><!DOCTYPE html>
@@ -26,20 +26,19 @@
 			<form action="" method="post">
 				<img id="logo" src="#" alt="">
 				<h2 form__title>Login</h2>
-
 				<?php if (isset($error)): ?>
 					<div class="form__error">
-					<?php echo "⛔️" . $error; ?>
+					<?php echo '⛔️'.$error; ?>
 					</div>
 				<?php endif; ?>
 
 				<div class="form__field">
 					<label for="email">Email</label>
-					<input type="text" name="email" placeholder="email">
+					<input type="text" name="email" placeholder="email" require>
 				</div>
 				<div class="form__field">
 					<label for="password">Password</label>
-					<input type="password" name="password" placeholder="password">
+					<input type="password" name="password" placeholder="password" require>
 				</div>
 
 				<div class="form__field">
