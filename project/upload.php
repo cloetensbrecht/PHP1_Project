@@ -135,7 +135,8 @@
     
     /* feature 4 - foto posten met beschrijving */
     //if(!empty($result)):
-    foreach ($result as $r => $row):
+   
+      foreach ($result as $r => $row):
 
        // feature 13
         $timeOfPost = strtotime($row['time']); // uit databank de tijd halen 
@@ -175,7 +176,7 @@
         } else if ($days == 1 && $seconds> 1) {
             $timeStatus = "yesterday";
         } else if ($days == 2 && $seconds> 1) {
-            $timeStatus = "the day before yesterday";
+            $timeStatus = "2 days ago";
         } else {
             $timeStatus = date ('d / m / Y', time () - $seconds);
         }
