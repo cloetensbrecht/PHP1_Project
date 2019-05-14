@@ -118,6 +118,8 @@
                 echo "<div class='".$row['filter']."'><img src='postImages/".$row['image']."'></div>";
                 echo '<p><strong>'.$row['username'].'</strong></p>';
                 echo '<p>'.$row['description'].'</p>';
+                //LINK TO detailpagina
+                //echo  '<a href="'.  $link['foto'].'">' . $link['tags']. '</a></br>';
             }
             echo '<br>';
         } else {
@@ -137,8 +139,7 @@
     */
     $currentTime = time();   // NOW
 
-    //if (count($posts) > 0):
-    //foreach ($posts as $row):
+    if (count($posts) > 0):     // if no post / if no friends
 
     foreach ($posts as $r => $row):
 
@@ -166,9 +167,11 @@
   ?>
 
         <?php endforeach;
-        /* else:
-            echo 'Oops, no posts yet.';
-       / endif; */
+        // if no post / if no friends
+        else:
+            echo 'Oops, no posts yet. First make some friends';
+       endif;
+
     ?>
     </div>
     <!-- FEATURE 7 - loadMore  -->

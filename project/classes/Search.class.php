@@ -47,8 +47,11 @@ class Search
     {
         $conn = Db::getInstance(); // db connection
         $searchInput = $this->checkSearchInput();
+        $lmt = 3; // limit ingesteld op 3 zoekresultaten
+
         // items = table name in db
-        $statement = $conn->prepare("SELECT * FROM posts, users WHERE users.id = posts.user_id AND description LIKE '%$searchInput%' ORDER BY users.id DESC LIMIT 10");
+        $statement = $conn->prepare("SELECT * FROM posts, users WHERE users.id = posts.user_id AND description LIKE '%$searchInput%' ORDER BY users.id DESC LIMIT $lmt");
+        //$statement->bindParam(':lmt', $lmt);
         // title, username zoeken?
         $statement->execute();
         $searchResults = $statement->fetchAll();
@@ -58,29 +61,28 @@ class Search
 
     public function countSearchResultsFormDb()
     {
-        $count = count($this->searchResultsFormDb());
-        // = ALTIJD MAX 10 = LIMIT
-
-        /*
         $conn = Db::getInstance(); // db connection
         $searchInput = $this->checkSearchInput();
-        $counter = $conn->prepare("SELECT COUNT(*) FROM posts, users WHERE users.id = posts.user_id AND description LIKE '%$searchInput%'");
-        $counter->execute();
-        $countRows = $counter->fetchColumn();
-        $countRows = $counter->fetchColumn(); // OR  $countRows = $statement->rowCount();
-        */
-        return $count;
+        $statement = $conn->prepare("SELECT * FROM posts, users WHERE users.id = posts.user_id AND description LIKE '%$searchInput%'");
+        $statement->execute();
+        $searchResults = $statement->fetchAll();
+        $countRows = count($searchResults);
+
+        return $countRows;
     }
 
     public function showMessageSearchResults()
     {
         $searchInput = $this->checkSearchInput();
-
         // minimum length of searchInput
         $min_length = 2;
-
+        $message = '';
         if (strlen($searchInput) <= $min_length) {
-            $message = 'First enter what you want to look for. The minimum length is '.$min_length;
+            if (!empty($_GET['searchInput'])) {
+                $message = 'First enter what you want to look for. The minimum length is '.$min_length;
+            } else {
+                $message = '';
+            }
         } elseif ($this->countSearchResultsFormDb() >= 1) {
             $message = 'We found '.$this->countSearchResultsFormDb().' results for '.$searchInput;
         } elseif ($this->countSearchResultsFormDb() == 0) {
