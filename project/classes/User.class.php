@@ -267,4 +267,16 @@
 
             //$q->execute(array($firstName, $lastName, $email, $mobile, $bio, $profilePicture, $username, $id));
         }
+
+        public static function readProfileData($id)
+        {
+            $conn = Db::getInstance();
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $sql = 'SELECT * FROM users where id = ?';
+            $q = $conn->prepare($sql);
+            $q->execute(array($id));
+            $data = $q->fetch(PDO::FETCH_ASSOC);
+
+            return $data;
+        }
     }

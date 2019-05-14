@@ -80,6 +80,9 @@
     <!--  FEATURE 4 -  POST foto met beschrijving -->
     <a href="upload.php">New Post</a> |
  
+    <!--  FEATURE 12 - klikken op een username -->
+    <a href='profile.php?id=<?php echo $id; ?>'>My profile</a> |
+
     <!--  FEATURE 3 - profiel aanpassen -->
     <a href='updateProfile.php?id=<?php echo $id; ?>'>Edit profile</a> |
 
@@ -116,7 +119,7 @@
             // show search results
             foreach ($searchResults as $row) {
                 echo "<div class='".$row['filter']."'><img src='postImages/".$row['image']."'></div>";
-                echo '<p><strong>'.$row['username'].'</strong></p>';
+                echo '<a href="profile.php?id='.$row['id'].'"><p><strong>'.$row['username'].'</strong></p></a>';
                 echo '<p>'.$row['description'].'</p>';
                 //LINK TO detailpagina
                 //echo  '<a href="'.  $link['foto'].'">' . $link['tags']. '</a></br>';
@@ -156,7 +159,8 @@
          //echo "<img src='postImages/".$row['image']." ' class='".$row['filter']."'> ";
 
           //echo "<div><img class='".$row['filter']."' src='postImages/".$row['image']."'> </div>";
-          echo '<p><strong>'.$row['username'].'</strong></p>';
+          echo '<a href="profile.php?id='.$row['user_id_friend'].'"><p><strong>'.$row['username'].'</strong></p></a>';
+                //echo '<p><strong>'.$row['username'].'</strong></p>';
           echo '<p>'.$row['description'].'</p>';
           echo '<p>'.$timeStatus.'</p>'; // FEATURE 13
           echo '<p>'.$row['filter'].'</p>'; // FEATURE 16
