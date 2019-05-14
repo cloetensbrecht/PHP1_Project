@@ -40,7 +40,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <link rel="stylesheet" href="https://cssgram-cssgram.netdna-ssl.com/cssgram.min.css">
-    <!-- script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="script.js"></script>
     <style type="text/css">
@@ -84,7 +84,7 @@
     <a href='profile.php?id=<?php echo $id; ?>'>My profile</a> |
 
     <!--  FEATURE 3 - profiel aanpassen -->
-    <a href='updateProfile.php?id=<?php echo $id; ?>'>Edit profile</a> |
+    <a href='updateProfile.php?id=<?php echo $id; ?>'>Edit my profile</a> |
 
     <!--  FEATURE 3 - profiel aanpassen - password  -->
     <a href='updatePassword.php?id=<?php echo $id; ?>'>Edit password</a> |
