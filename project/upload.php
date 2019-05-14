@@ -1,7 +1,10 @@
 <!--  FEATURE 4 -  POST foto met beschrijving --> 
 <?php
-
   require_once 'bootstrap.php';
+
+  if (!isset($_SESSION['id'])) {
+      header('location: login.php');
+  }
 
   // Create database connection
   $conn = Db::getInstance();

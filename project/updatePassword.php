@@ -17,6 +17,9 @@
     if (null == $id) {
         header('Location: index.php');
     }
+    if (!isset($_SESSION['id'])) {
+        header('location: login.php');
+    }
 
     echo $_SESSION['id']; echo $id;
 
