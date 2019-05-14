@@ -26,12 +26,10 @@
 <body>
 
     <div class="container">
-     
                 <div class="span10 offset1">
                     <div class="row">
                     <h1>Detail page</h1>
                     </div>
-                     
                     <div class="form-horizontal" >
                       <div class="control-group">
                         <label class="control-label">Name</label>

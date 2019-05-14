@@ -4,32 +4,27 @@
         header('location: login.php');
     }
     // id ophalen uit db
-    $id = User::getId();
+    //$id = User::getId();
 
     /* FEATURE 5 - laatste 20 posts  */
     // overzicht geuploade img
     $posts = Post::getAll();
-    //$posts = Post::getPostInfo();
+
+    //$posts = Post::getPostInfo(); // niet SELECT * // maar specifieke kolomen selecteren
+    //var_dump($posts);
 
     // FEATURE 6 - SEARCH
     $search = new Search();
     $searchInput = $search->checkSearchInput();
-    $searchResults = $search->searchResultsFormDb();
-    $searchResultsCount = $search->countSearchResultsFormDb();
+    $searchResults = $search->searchResultsFormDb(); // ZORGT VOOR ICOON 🚫
+    $searchResultsCount = $search->countSearchResultsFormDb(); // ZORGT VOOR ICOON 🚫
 
-    // FEATURE 7 - loadMore
+    //$searchResults = $search->searchResultsFormDb(); // ZORGT VOOR ICOON 🚫
+    //$searchResultsCount = $search->countSearchResultsFormDb(); // ZORGT VOOR ICOON 🚫
+
+    // FEATURE 7 - loadMore // doesnt work yet
     // count number of posts
-    $postCount = count($posts); // ! let op met limit
-
-    // FEATURE 13 - tijd geleden
-
-    /*
-    $post = new Post();
-    var_dump(Post::getTimeNow());
-
-    $timeStatus = $post->timeStatus(); */
-    //$timeStatus = Post::timeStatus();
-
+    //$postCount = count($posts); // ! let op met limit
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -86,7 +81,7 @@
     // FEATURE 12 detailpagina  // persoonlijker met profile.php?id='.$row['username']  /???
  -->
     <a href='profile.php?id=<?php echo $id; ?>'>My profile</a> |
-    
+
     <!--  FEATURE 3 - profiel aanpassen -->
     <a href='updateProfile.php?id=<?php echo $id; ?>'>Edit my profile</a> |
 
@@ -165,7 +160,7 @@
 
     ?>
     </div>
-    <!-- FEATURE 7 - loadMore  -->
+    <!-- FEATURE 7 - loadMore  // doesnt work yet -->
     <div id="loadMore">
         <ul id="results">
             <!-- results in a list -->
