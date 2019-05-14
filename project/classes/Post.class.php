@@ -104,13 +104,13 @@
         }
 
         // FEATURE 13 - wanneer foto opgeladen in de databank
-        public function timeStatus()
+        public static function timeStatus($timeOfPost)
         {
             $currentTime = time();   // NOW
 
             //$timeOfPost = self::getTimeNow();
-            $timeOfPost = $this->time;
-            var_dump($timeOfPost);
+            //$timeOfPost = $this->time;
+            //var_dump($timeOfPost);
 
             $timeOfPostCode = strtotime($timeOfPost); // uit databank de tijd halen
             //$timeOfPost = strtotime($row['time']); // uit databank de tijd halen

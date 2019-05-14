@@ -115,7 +115,7 @@
             echo $search->showMessageSearchResults();
             // show search results
             foreach ($searchResults as $row) {
-                echo "<div class='".$row['filter']."'><img src='postImages/".$row['image']."'> </div>";
+                echo "<div class='".$row['filter']."'><img src='postImages/".$row['image']."'></div>";
                 echo '<p><strong>'.$row['username'].'</strong></p>';
                 echo '<p>'.$row['description'].'</p>';
             }
@@ -143,51 +143,7 @@
     foreach ($posts as $r => $row):
 
        // FEATURE 13 - tijd geleden
-
-       //$post->setTime = ($row['time']);
-
-        $timeOfPost = strtotime($row['time']); // uit databank de tijd halen
-        $timeStatus = '';
-        $seconds = $currentTime - $timeOfPost;
-
-        $minutes = (int) floor($seconds / 60);
-        $hours = (int) floor($minutes / 60);
-        $days = (int) floor($hours / 24);
-
-        // hoelang geleden - tijd bepalen
-        if ($seconds < 60) {
-            $timeStatus = 'now';
-        } elseif ($minutes == 1) {
-            $timeStatus = 'a minute ago';
-        } elseif ($minutes == 2) {
-            $timeStatus = 'two minutes ago';
-        } elseif ($minutes == 3) {
-            $timeStatus = 'three minutes ago';
-        } elseif ($minutes < 15) {
-            $timeStatus = 'less than fifteen minutes ago';
-        } elseif ($minutes == 15) {
-            $timeStatus = 'fifteen minutes ago';
-        } elseif ($minutes < 30) {
-            $timeStatus = 'less than half an hour ago';
-        } elseif ($minutes == 30) {
-            $timeStatus = 'half an hour ago';
-        } elseif ($hours < 1) {
-            $timeStatus = 'less than an hour ago';
-        } elseif ($hours == 1) {
-            $timeStatus = 'an hour ago';
-        } elseif ($hours == 2) {
-            $timeStatus = 'two hours ago';
-        } elseif ($hours == 3) {
-            $timeStatus = 'three hours ago';
-        } elseif ($days < 1) {
-            $timeStatus = 'less than a day ago';
-        } elseif ($days == 1 && $seconds > 1) {
-            $timeStatus = 'yesterday';
-        } elseif ($days == 2 && $seconds > 1) {
-            $timeStatus = 'the day before yesterday';
-        } else {
-            $timeStatus = date('d / m / Y', time() - $seconds);
-        }
+       $timeStatus = Post::timeStatus($row['time']);
 
       // FEATURE 4
       echo "<div id='img_div ".$row['id'].'> ';
@@ -195,7 +151,10 @@
       /* class=". $row['filter']*/ /* FEATURE 16 filter op foto met CSSGram  */
       //echo "<div id='img_div' class=".$row['filter']."'>"; /* class=". $row['filter']*/ /* FEATURE 16 filter op foto met CSSGram  */
 
-          echo "<div class='".$row['filter']."'><img src='postImages/".$row['image']."'> </div>";
+         echo "<div class='".$row['filter']."'><img src='postImages/".$row['image']."'> </div>";
+         //echo "<img src='postImages/".$row['image']." ' class='".$row['filter']."'> ";
+
+          //echo "<div><img class='".$row['filter']."' src='postImages/".$row['image']."'> </div>";
           echo '<p><strong>'.$row['username'].'</strong></p>';
           echo '<p>'.$row['description'].'</p>';
           echo '<p>'.$timeStatus.'</p>'; // FEATURE 13
