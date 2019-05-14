@@ -1,10 +1,8 @@
 <?php
     require_once 'bootstrap.php';
-
     if (!isset($_SESSION['id'])) {
         header('location: login.php');
     }
-
     // id ophalen uit db
     $id = User::getId();
 
@@ -32,45 +30,49 @@
     $timeStatus = $post->timeStatus(); */
     //$timeStatus = Post::timeStatus();
 
-?><!DOCTYPE html>
+?>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <link rel="stylesheet" href="https://cssgram-cssgram.netdna-ssl.com/cssgram.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="script.js"></script>
     <style type="text/css">
-    body {
-      font-family: Helvetica, sans-serif;
-      margin: 20px auto;
-    }
-    
-    #img_div {
-      padding: 5px;
-      margin: 15px auto;
+        body {
+            font-family: Helvetica, sans-serif;
+            margin: 20px auto;
+        }
 
-    }
-    
-    #img_div:after {
-      content: "";
-      display: block;
-      clear: both;
-    }
+        #img_div {
+            padding: 5px;
+            margin: 15px auto;
 
-    img {
-      margin: 5px;
-      max-width: 300px;
-      max-height: 300px;
-    }
+        }
 
-    h1 {
-      margin: 20px 0;
-    }
-  </style>
+        #img_div:after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        img {
+            margin: 5px;
+            max-width: 300px;
+            max-height: 300px;
+        }
+
+        h1 {
+            margin: 20px 0;
+        }
+    </style>
     <title>Travel Inspiration</title>
 </head>
 
@@ -79,10 +81,12 @@
 
     <!--  FEATURE 4 -  POST foto met beschrijving -->
     <a href="upload.php">New Post</a> |
- 
-    <!--  FEATURE 12 - klikken op een username -->
-    <a href='profile.php?id=<?php echo $id; ?>'>My profile</a> |
 
+    <!--  FEATURE 12 - klikken op een username // detailpagina
+    // FEATURE 12 detailpagina  // persoonlijker met profile.php?id='.$row['username']  /???
+ -->
+    <a href='profile.php?id=<?php echo $id; ?>'>My profile</a> |
+    
     <!--  FEATURE 3 - profiel aanpassen -->
     <a href='updateProfile.php?id=<?php echo $id; ?>'>Edit my profile</a> |
 
@@ -105,7 +109,6 @@
         </div>
         <?php endif; ?>
     </div>
-
     <div>
         <?php
         if ($search->checkSearchInputLength() === 2) {
@@ -118,11 +121,10 @@
             echo $search->showMessageSearchResults();
             // show search results
             foreach ($searchResults as $row) {
-                echo "<div class='".$row['filter']."'><img src='postImages/".$row['image']."'></div>";
-                echo '<a href="profile.php?id='.$row['id'].'"><p><strong>'.$row['username'].'</strong></p></a>';
+                echo "<div class='".$row['filter']."'><img src='postImages/".$row['image']."'> </div>";
+                echo '<a href="profile.php?id='.$row['id'].'"><p><strong>'.$row['username'].'</strong></p></a>'; // FEATURE 12 detailpagina
+                // FEATURE 12 detailpagina  // persoonlijker met profile.php?id='.$row['username']  /???
                 echo '<p>'.$row['description'].'</p>';
-                //LINK TO detailpagina
-                //echo  '<a href="'.  $link['foto'].'">' . $link['tags']. '</a></br>';
             }
             echo '<br>';
         } else {
@@ -135,42 +137,27 @@
     <!-- FEATURE 5 - load 20 images of friends on index  -->
     <div class="feed">
         <h2>Feed</h2>
-
     <?php
-    /* FEATURE 13 - wanneer foto opgeladen in de databank ? > toon hoe lang geleden
-    (vb: 1 uur geleden, een half uur geleden, zonet, gisteren 12u54)
-    */
-    $currentTime = time();   // NOW
-
     if (count($posts) > 0):     // if no post / if no friends
 
     foreach ($posts as $r => $row):
 
-       // FEATURE 13 - tijd geleden
-       $timeStatus = Post::timeStatus($row['time']);
+        // FEATURE 5 - 20 posts van je vriendenlijst
+        echo "<a href='postImages/".$row['image']."'><div id='img_div ".$row['id'].'> ';
+        echo "<div class='".$row['filter']."'><img src='postImages/".$row['image']."'></div>";
+        echo '<a href="profile.php?id='.$row['user_id_friend'].'"><p><strong>'.$row['username'].'</strong></p></a>'; // FEATURE 12 detailpagina
 
-      // FEATURE 4
-      echo "<div id='img_div ".$row['id'].'> ';
+        // FEATURE 12 detailpagina  // persoonlijker met profile.php?id='.$row['username']  /???
+        echo '<p>'.$row['description'].'</p>';
 
-      /* class=". $row['filter']*/ /* FEATURE 16 filter op foto met CSSGram  */
-      //echo "<div id='img_div' class=".$row['filter']."'>"; /* class=". $row['filter']*/ /* FEATURE 16 filter op foto met CSSGram  */
+        // FEATURE 13 - tijd geleden
+        $timeStatus = Post::timeStatus($row['time']);
+        echo '<p>'.$timeStatus.'</p>'; // FEATURE 13
 
-         echo "<div class='".$row['filter']."'><img src='postImages/".$row['image']."'> </div>";
-         //echo "<img src='postImages/".$row['image']." ' class='".$row['filter']."'> ";
+        //echo '<p>'.$row['filter'].'</p>'; // FEATURE 16
 
-          //echo "<div><img class='".$row['filter']."' src='postImages/".$row['image']."'> </div>";
-          echo '<a href="profile.php?id='.$row['user_id_friend'].'"><p><strong>'.$row['username'].'</strong></p></a>';
-                //echo '<p><strong>'.$row['username'].'</strong></p>';
-          echo '<p>'.$row['description'].'</p>';
-          echo '<p>'.$timeStatus.'</p>'; // FEATURE 13
-          echo '<p>'.$row['filter'].'</p>'; // FEATURE 16
-
-      echo '</div>';
-      //var_dump($row); // TESTEN
-
-  ?>
-
-        <?php endforeach;
+        echo '</div></a>';
+     endforeach;
         // if no post / if no friends
         else:
             echo 'Oops, no posts yet. First make some friends';
@@ -180,16 +167,13 @@
     </div>
     <!-- FEATURE 7 - loadMore  -->
     <div id="loadMore">
-		<ul id="results"><!-- results in a list --></ul>
+        <ul id="results">
+            <!-- results in a list -->
+        </ul>
         <button id="load--more">Load More</button>
         <input type="hidden" id="row" value="0">
         <input type="hidden" id="all" value="<?php echo $postCount; ?>">
     </div>
-    <?php
-   //var_dump($row);
-   //var_dump($html);
-   //var_dump($resultOfPosts);
-?>
 </body>
 
 </html>
