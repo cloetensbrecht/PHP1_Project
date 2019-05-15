@@ -18,8 +18,7 @@
         header('Location: index.php');
     }
 
-    echo $_SESSION['id'];
-    echo $id;
+    //TEST // echo $_SESSION['id']; //    echo $id;
 
     $profile = new User();
 
@@ -140,115 +139,121 @@
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="css/style.css" type="text/css">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <script src="js/bootstrap.min.js"></script>
-    <title>Inspiration Hunter - Edit Profile</title> 
+    <?php include_once 'inc/head.inc.php'; // link naar CSS bootstrap , CSS filter & jquery?>
+    <title>Inspiration Hunter - Edit Profile</title>
 </head>
+
 <body>
-    <!--  feature 3 - profiel aanpassen  -->
-    <div class="container">
-        <div class="span10 offset1">
-            <div class="row">
-                <h3>Edit your profile</h3>
+    <header>
+        <?php include_once 'inc/nav.inc.php'; ?>
+    </header>
+    <main>
+        <!--  feature 3 - profiel aanpassen  -->
+        <div class="container">
+            <div class="span10 offset1">
+                <div class="row">
+                    <h3>Edit your profile</h3>
+                </div>
+
+                <form class="form-horizontal" action="updateProfile.php?id=<?php echo $id; ?>" method="post">
+                    <div class="form-group row <?php echo !empty($firstNameError) ? 'error' : ''; ?>">
+                        <label class="col-form-label text-md-right col-md-2text-md-right col-md-2">Firstname</label>
+                        <div class="col-md-10">
+                            <input name="firstName" type="text" placeholder="firstName"
+                                value="<?php echo !empty($firstName) ? $firstName : ''; ?>">
+                            <?php if (!empty($firstNameError)): ?>
+                            <span class="help-inline"><?php echo $firstNameError; ?></span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <div class="form-group row <?php echo !empty($lastNameError) ? 'error' : ''; ?>">
+                        <label class="col-form-label text-md-right col-md-2">Lastname</label>
+                        <div class="col-md-10">
+                            <input name="lastName" type="text" placeholder="lastName"
+                                value="<?php echo !empty($lastName) ? $lastName : ''; ?>">
+                            <?php if (!empty($lastNameError)): ?>
+                            <span class="help-inline"><?php echo $lastNameError; ?></span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <div class="form-group row <?php echo !empty($emailError) ? 'error' : ''; ?>">
+                        <label class="col-form-label text-md-right col-md-2">Email Address</label>
+                        <div class="col-md-10">
+                            <input name="email" type="text" placeholder="Email Address"
+                                value="<?php echo !empty($email) ? $email : ''; ?>">
+                            <?php if (!empty($emailError)): ?>
+                            <span class="help-inline"><?php echo $emailError; ?></span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <div class="form-group row <?php echo !empty($usernameError) ? 'error' : ''; ?>">
+                        <label class="col-form-label text-md-right col-md-2">Username</label>
+                        <div class="col-md-10">
+                            <input name="username" type="text" placeholder="username"
+                                value="<?php echo !empty($username) ? $username : ''; ?>">
+                            <?php if (!empty($usernameError)): ?>
+                            <span class="help-inline"><?php echo $usernameError; ?></span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <div class="form-group row <?php echo !empty($mobileError) ? 'error' : ''; ?>">
+                        <label class="col-form-label text-md-right col-md-2">Mobile Number</label>
+                        <div class="col-md-10">
+                            <input name="mobile" type="text" placeholder="Mobile Number"
+                                value="<?php echo !empty($mobile) ? $mobile : ''; ?>">
+                            <?php if (!empty($mobileError)): ?>
+                            <span class="help-inline"><?php echo $mobileError; ?></span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <div class="form-group row <?php echo !empty($bioError) ? 'error' : ''; ?>">
+                        <label class="col-form-label text-md-right col-md-2">Bio</label>
+                        <div class="col-md-10">
+                            <textarea name="bio" type="text" placeholder="bio"
+                                value="<?php echo !empty($bio) ? $bio : ''; ?>"></textarea>
+                            <?php if (!empty($bioError)): ?>
+                            <span class="help-inline"><?php echo $bioError; ?></span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <div class="form-group row <?php echo !empty($bioError) ? 'error' : ''; ?>">
+                        <label class="col-form-label text-md-right col-md-2">Profile Picture</label>
+                        <div class="col-md-10">
+                            <input name="profilePicture" type="file" placeholder="profilePicture"
+                                value="<?php echo !empty($profilePicture) ? $profilePicture : ''; ?>">
+                            <?php if (!empty($bioError)): ?>
+                            <span class="help-inline"><?php echo $bioError; ?></span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+
+                    <!-- protect profile - pw -->
+                    <h3>Current password</h3>
+                    <p>To change profile information, you must enter the current password.</p>
+                    <div class="form-group row <?php echo !empty($CurrentPasswordError) ? 'error' : ''; ?>">
+                        <label class="col-form-label text-md-right col-md-2">Current Password</label>
+                        <div class="col-md-10">
+                            <input name="CurrentPassword" type="password" placeholder="********">
+                            <?php if (!empty($CurrentPasswordError)): ?>
+                            <span class="help-inline"><?php echo $CurrentPasswordError; ?></span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-success">Update profile</button>
+                    </div>
+                </form>
+
+                <a class="btn" href="index.php">Back</a>
             </div>
-
-            <form class="form-horizontal" action="updateProfile.php?id=<?php echo $id; ?>" method="post">
-                <div class="control-group <?php echo !empty($firstNameError) ? 'error' : ''; ?>">
-                    <label class="control-label">Firstname</label>
-                    <div class="controls">
-                        <input name="firstName" type="text" placeholder="firstName"
-                            value="<?php echo !empty($firstName) ? $firstName : ''; ?>">
-                        <?php if (!empty($firstNameError)): ?>
-                        <span class="help-inline"><?php echo $firstNameError; ?></span>
-                        <?php endif; ?>
-                    </div>
-                </div>
-                <div class="control-group <?php echo !empty($lastNameError) ? 'error' : ''; ?>">
-                    <label class="control-label">Lastname</label>
-                    <div class="controls">
-                        <input name="lastName" type="text" placeholder="lastName"
-                            value="<?php echo !empty($lastName) ? $lastName : ''; ?>">
-                        <?php if (!empty($lastNameError)): ?>
-                        <span class="help-inline"><?php echo $lastNameError; ?></span>
-                        <?php endif; ?>
-                    </div>
-                </div>
-                <div class="control-group <?php echo !empty($emailError) ? 'error' : ''; ?>">
-                    <label class="control-label">Email Address</label>
-                    <div class="controls">
-                        <input name="email" type="text" placeholder="Email Address"
-                            value="<?php echo !empty($email) ? $email : ''; ?>">
-                        <?php if (!empty($emailError)): ?>
-                        <span class="help-inline"><?php echo $emailError; ?></span>
-                        <?php endif; ?>
-                    </div>
-                </div>
-                <div class="control-group <?php echo !empty($usernameError) ? 'error' : ''; ?>">
-                    <label class="control-label">Username</label>
-                    <div class="controls">
-                        <input name="username" type="text" placeholder="username"
-                            value="<?php echo !empty($username) ? $username : ''; ?>">
-                        <?php if (!empty($usernameError)): ?>
-                        <span class="help-inline"><?php echo $usernameError; ?></span>
-                        <?php endif; ?>
-                    </div>
-                </div>
-                <div class="control-group <?php echo !empty($mobileError) ? 'error' : ''; ?>">
-                    <label class="control-label">Mobile Number</label>
-                    <div class="controls">
-                        <input name="mobile" type="text" placeholder="Mobile Number"
-                            value="<?php echo !empty($mobile) ? $mobile : ''; ?>">
-                        <?php if (!empty($mobileError)): ?>
-                        <span class="help-inline"><?php echo $mobileError; ?></span>
-                        <?php endif; ?>
-                    </div>
-                </div>
-                <div class="control-group <?php echo !empty($bioError) ? 'error' : ''; ?>">
-                    <label class="control-label">Bio</label>
-                    <div class="controls">
-                        <textarea name="bio" type="text" placeholder="bio"
-                            value="<?php echo !empty($bio) ? $bio : ''; ?>"></textarea>
-                        <?php if (!empty($bioError)): ?>
-                        <span class="help-inline"><?php echo $bioError; ?></span>
-                        <?php endif; ?>
-                    </div>
-                </div>
-                <div class="control-group <?php echo !empty($bioError) ? 'error' : ''; ?>">
-                    <label class="control-label">Profile Picture</label>
-                    <div class="controls">
-                        <input name="profilePicture" type="file" placeholder="profilePicture"
-                            value="<?php echo !empty($profilePicture) ? $profilePicture : ''; ?>">
-                        <?php if (!empty($bioError)): ?>
-                        <span class="help-inline"><?php echo $bioError; ?></span>
-                        <?php endif; ?>
-                    </div>
-                </div>
-                
-                <!-- protect profile - pw -->
-                <h3>Current password</h3>
-                <p>To change profile information, you must enter the current password.</p>
-                <div class="control-group <?php echo !empty($CurrentPasswordError) ? 'error' : ''; ?>">
-                    <label class="control-label">Current Password</label>
-                    <div class="controls">
-                        <input name="CurrentPassword" type="password" placeholder="********">
-                        <?php if (!empty($CurrentPasswordError)): ?>
-                        <span class="help-inline"><?php echo $CurrentPasswordError; ?></span>
-                        <?php endif; ?>
-                    </div>
-                </div>
-                
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-success">Update profile</button>
-                </div>
-            </form>
-
-            <a class="btn" href="index.php">Back</a>
         </div>
-    </div> 
+    </main>
+    <footer>
+    </footer>
+    <?php include_once 'inc/bootstrapJs.inc.php'; // link naar JS bootstrap?>
 </body>
+
 </html>
