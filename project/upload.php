@@ -39,6 +39,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+<?php include_once 'inc/head.inc.php'; // link naar CSS bootstrap , CSS filter & jquery?>
   <title>Upload</title>
   <style type="text/css">
     body {
@@ -76,6 +78,7 @@
 </head>
 
 <body>
+<?php include_once 'inc/nav.inc.php'; ?>
 <!--  FEATURE 4 -  POST foto met beschrijving --> 
   <h1>Upload image</h1>
   <div id="content">
@@ -200,5 +203,7 @@
   //endif;
   //if (empty($result)) {    echo 'Oops, no posts yet. '; }
   ?>
+
+<?php include_once 'inc/bootstrapJs.inc.php'; // link naar JS bootstrap?>
 </body>   
 </html>

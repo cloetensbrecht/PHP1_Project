@@ -74,16 +74,16 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="css/style.css" type="text/css">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <script src="js/bootstrap.min.js"></script>
+<?php include_once 'inc/head.inc.php'; // link naar CSS bootstrap , CSS filter & jquery?>
+    
     <title>Inspiration Hunter - Edit Profile</title>
 </head>
 
 <body>
+<header>
+        <?php include_once 'inc/nav.inc.php'; ?>
+    </header>
+    <main>
     <!--  feature 3 - profiel aanpassen  -->
     <div class="container">
         <div class="span10 offset1">
@@ -120,6 +120,10 @@
             <a class="btn" href="index.php">Back</a>
         </div>
     </div>
+    </main>
+    <footer>
+    </footer>
+    <?php include_once 'inc/bootstrapJs.inc.php'; // link naar JS bootstrap?>
 </body>
 
 </html>
