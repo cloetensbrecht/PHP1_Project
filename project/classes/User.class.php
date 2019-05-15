@@ -154,7 +154,6 @@
         public static function getId()
         {
             $conn = Db::getInstance();
-
             // id ophalen uit db
             $emailCheck = $_SESSION['id'];
             $result = $conn->prepare('SELECT id FROM users WHERE email= :email');
@@ -193,6 +192,10 @@
                     $statement->bindParam(':email', $this->email);
                     $statement->execute();
                     $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+                    // OF BETER ?
+                    //$statement = $conn->query('SELECT password FROM users WHERE $this->email);');
+                    // + $conn->real_escape_string($hash) ?
 
                     //if($this->password === $result['password']){
                     // NORMAAL met password_verify
@@ -264,10 +267,10 @@
             $q = $conn->prepare('UPDATE users set firstName = ?, lastName = ?, email = ?, mobile =?, bio=? , profilePicture=? , username=? 
             WHERE id = ?');
             $q->execute(array($this->firstName, $this->lastName, $this->email, $this->mobile, $this->bio, $this->profilePicture, $this->username, $this->id));
-
             //$q->execute(array($firstName, $lastName, $email, $mobile, $bio, $profilePicture, $username, $id));
         }
 
+        //FEATURE 12 klikken op  username voor detailpagina
         public static function readProfileData($id)
         {
             $conn = Db::getInstance();
@@ -278,5 +281,35 @@
             $data = $q->fetch(PDO::FETCH_ASSOC);
 
             return $data;
+        }
+
+        //FEATURE 12 follow
+        public static function follow($friendid)
+        {
+            $conn = Db::getInstance(); // db connection
+            $result = $conn->prepare('insert into friends (user_id, friendid) values (:user_id, :user_id_friend)');
+            // statment prepare en werken met placeholder / Veilig 'binden' aan het statement > om SQL te voorkomen.
+            $result->bindParam(':user_id', $user_id); // from session
+            $result->bindParam(':user_id_friend', $friendid); //$user_id_friend
+
+            return $result->execute();
+        }
+
+        //FEATURE 12 follow
+        public static function isFollowing($friendid, $userid)
+        {
+            $conn = Db::getInstance(); // db connection
+            $result = $conn->prepare('select* from friends where user_id = :user_id AND user_id_friend = :user_id_friend');
+            // statment prepare en werken met placeholder / Veilig 'binden' aan het statement > om SQL te voorkomen.
+            $result->bindParam(':user_id', $userid); // from session
+            $result->bindParam(':user_id_friend', $friendid); //$user_id_friend
+            $result->execute();
+            //var_dump($result->rowCount());
+
+            if ($result->rowCount() === 0) {
+                return false; // niet volgen
+            } else {
+                return true; // al volgend
+            }
         }
     }
