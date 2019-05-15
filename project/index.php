@@ -4,7 +4,7 @@
         header('location: login.php');
     }
     // id ophalen uit db
-    //$id = User::getId();
+    $id = User::getId();
 
     /* FEATURE 5 - laatste 20 posts  */
     // overzicht geuploade img
@@ -72,40 +72,49 @@
 </head>
 
 <body>
-    <h1>Travel Inspiration</h1>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="index.php">Travel Inspiration</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-    <!--  FEATURE 4 -  POST foto met beschrijving -->
-    <a href="upload.php">New Post</a> |
-
-    <!--  FEATURE 12 - klikken op een username // detailpagina
-    // FEATURE 12 detailpagina  // persoonlijker met profile.php?id='.$row['username']  /???
- -->
-    <a href='profile.php?id=<?php echo $id; ?>'>My profile</a> |
-
-    <!--  FEATURE 3 - profiel aanpassen -->
-    <a href='updateProfile.php?id=<?php echo $id; ?>'>Edit my profile</a> |
-
-    <!--  FEATURE 3 - profiel aanpassen - password  -->
-    <a href='updatePassword.php?id=<?php echo $id; ?>'>Edit password</a> |
-
-    <!--  FEATURE  2  inloggen & uitloggen -->
-    <a href="logout.php">Logout</a>
-
-    <!-- FEATURE 6 - SEARCH -->
-    <div class="form form--search">
-        <form action="" method="GET" name='search'>
-            <div class="form__field">
-                <input type="text" name="searchInput" value="" placeholder="search" />
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <!-- <li class="nav-item active">
+                        <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
+                    </li> -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="upload.php">New Post</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="profile.php?id=<?php echo $id; ?>">My profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="updateProfile.php?id=<?php echo $id; ?>">Edit my profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="updatePassword.php?id=<?php echo $id; ?>">Edit password</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-danger" href="logout.php">Logout</a>
+                    </li>
+                </ul>
+                <!-- FEATURE 6 - SEARCH -->
+                <form class="form-inline my-2 my-lg-0" action="" method="GET" name='search'>
+                    <input class="form-control mr-sm-2" name="searchInput" type="search" placeholder="Search"
+                        aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
             </div>
-        </form>
-        <?php if (isset($error)): ?>
-        <div class="form__error">
-            <?php //echo '⛔️'.$search->checkSearchInputLength(); // $error;?>
-        </div>
-        <?php endif; ?>
-    </div>
-    <div>
-        <?php
+
+        </nav>
+    </header>
+    <main>
+        <h1>Travel Inspiration</h1>
+        <div>
+            <?php
         if ($search->checkSearchInputLength() === 2) {
             echo $search->showMessageSearchResults();
         } elseif (!$searchResultsCount) { // if there is no matching row
@@ -127,12 +136,12 @@
         }
 
         ?>
-    </div>
+        </div>
 
-    <!-- FEATURE 5 - load 20 images of friends on index  -->
-    <div class="feed">
-        <h2>Feed</h2>
-    <?php
+        <!-- FEATURE 5 - load 20 images of friends on index  -->
+        <div class="feed">
+            <h2>Feed</h2>
+            <?php
     if (count($posts) > 0):     // if no post / if no friends
 
     foreach ($posts as $r => $row):
@@ -159,16 +168,19 @@
        endif;
 
     ?>
-    </div>
-    <!-- FEATURE 7 - loadMore  // doesnt work yet -->
-    <div id="loadMore">
-        <ul id="results">
-            <!-- results in a list -->
-        </ul>
-        <button id="load--more">Load More</button>
-        <input type="hidden" id="row" value="0">
-        <input type="hidden" id="all" value="<?php echo $postCount; ?>">
-    </div>
+        </div>
+        <!-- FEATURE 7 - loadMore  // doesnt work yet -->
+        <div id="loadMore">
+            <ul id="results">
+                <!-- results in a list -->
+            </ul>
+            <button id="load--more">Load More</button>
+            <input type="hidden" id="row" value="0">
+            <input type="hidden" id="all" value="<?php echo $postCount; ?>">
+        </div>
+    </main>
+    <footer>
+    </footer>
 </body>
 
 </html>
