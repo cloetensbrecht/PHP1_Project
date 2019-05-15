@@ -27,11 +27,11 @@
                         <a class="nav-link text-danger" href="logout.php">Logout</a>
                     </li>
                 </ul>
-                <!-- FEATURE 6 - SEARCH 
+                <!-- FEATURE 6 - SEARCH -->
                 <form class="form-inline my-2 my-lg-0" action="" method="GET" name='search'>
                     <input class="form-control mr-sm-2" name="searchInput" type="search" placeholder="Search"
                         aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>-->
+                </form>
             </div>
         </nav>

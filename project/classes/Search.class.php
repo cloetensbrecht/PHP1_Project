@@ -50,8 +50,10 @@ class Search
         $lmt = 3; // limit ingesteld op 3 zoekresultaten
 
         // items = table name in db
-        $statement = $conn->prepare("SELECT * FROM posts, users WHERE users.id = posts.user_id AND description LIKE '%$searchInput%' ORDER BY users.id DESC LIMIT $lmt");
-        //$statement->bindParam(':lmt', $lmt);
+        //$result = $conn->prepare("SELECT*FROM posts WHERE message LIKE '%$innerhtml%' ORDER BY id DESC  limit 20");
+
+        $statement = $conn->prepare("SELECT * FROM posts, users, friends WHERE users.id = posts.user_id AND users.id = friends.user_id_friend AND description LIKE '%$searchInput%' OR username LIKE '%$searchInput%' ORDER BY users.id DESC LIMIT $lmt");
+        $statement->bindParam(':lmt', $lmt);
         // title, username zoeken?
         $statement->execute();
         $searchResults = $statement->fetchAll();
@@ -79,14 +81,14 @@ class Search
         $message = '';
         if (strlen($searchInput) <= $min_length) {
             if (!empty($_GET['searchInput'])) {
-                $message = 'First enter what you want to look for. The minimum length is '.$min_length;
+                $message = 'First enter what you want to look for. The minimum length is '.$min_length.'.';
             } else {
                 $message = '';
             }
         } elseif ($this->countSearchResultsFormDb() >= 1) {
-            $message = 'We found '.$this->countSearchResultsFormDb().' results for '.$searchInput;
+            $message = 'We found '.$this->countSearchResultsFormDb().' results for "'.$searchInput.'".';
         } elseif ($this->countSearchResultsFormDb() == 0) {
-            $message = 'We found no results for '.$searchInput;
+            $message = 'We found no results for "'.$searchInput.'".';
         } else {
             $message = 'Oops, first enter what you want to look for. ';
         }
