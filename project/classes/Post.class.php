@@ -60,6 +60,26 @@
             return $resultOfPosts = $result->fetchAll(PDO::FETCH_ASSOC);
         }
 
+        public static function getAllExplore()
+        {
+            $conn = Db::getInstance(); // db connection
+            $result = $conn->prepare('SELECT id FROM users WHERE email= :email;');
+            $result->bindParam(':email', $emailCheck);
+            $result->execute();
+            $id = $result->fetch(PDO::FETCH_COLUMN);
+
+            //echo 'dit is id'.$id;
+
+            $result = $conn->prepare('SELECT * FROM posts, users, friends
+            WHERE users.id = posts.user_id
+            AND users.id = friends.user_id_friend
+            ORDER BY posts.time DESC'); //LIMIT $row, $rowperpage'
+            $result->bindParam(':id', $id);
+            $result->execute();
+
+            return $resultExplore = $result->fetchAll(PDO::FETCH_ASSOC);
+        }
+
         public static function getPostInfo()
         {
             $emailCheck = $_SESSION['id'];
