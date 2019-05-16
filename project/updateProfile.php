@@ -121,7 +121,7 @@
 
             //Database::disconnect();
             //header('Location: index.php');
-            echo 'IT WORKS 🔥 TO index';
+            //echo 'IT WORKS 🔥 TO index';
         }
     } else {
         // data ophalen uit db en invullen in de velden
