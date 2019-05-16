@@ -89,7 +89,7 @@
       </div>
       <div class="description">
         <p>Description</p>
-        <input type="text" id="description" name="description" style="width: 400px; padding-bottom: 50px;">
+        <input type="text" id="description" name="description" style="width: 400px; padding-bottom: 50px; border: 1px solid black;">
         <br />
       </div>
       <!-- FEATURE 16 filter op foto met CSSGram  -->
