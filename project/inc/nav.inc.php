@@ -12,6 +12,9 @@
                         <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
                     </li> -->
                     <li class="nav-item">
+                        <a class="nav-link" href="ontdek.php">Ontdek</a> 
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="upload.php">New Post</a>
                     </li>
                     <li class="nav-item">
