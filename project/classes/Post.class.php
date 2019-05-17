@@ -12,6 +12,70 @@
             return $this->time;
         }
 
+        // setters ///////////////////////////////////////////////
+        public function setTime($time)
+        {
+            $this->time = $time;
+
+            return $this;
+        }
+
+        // functions ///////////////////////////////////////////////
+
+        public static function feedbackUpload()
+        {
+            //if (isset($_POST['submit']) && !empty($_FILES['image']['name'])) {
+            if (move_uploaded_file($_FILES['image']['tmp_name'], 'postImages/'.$_FILES['image']['name'])) {
+                $feedback = 'image has uploaded successfully.';
+            } else {
+                $feedback = 'Some problem occurred, please try again.';
+            }
+
+            return $feedback;
+            // }
+        }
+
+        /* COLOR OF THE MESSAGE
+
+        public static function feedbackUploadColor()
+        {
+            //if (isset($_POST['submit']) && !empty($_FILES['image']['name'])) {
+            if (move_uploaded_file($_FILES['image']['tmp_name'], 'postImages/'.$_FILES['image']['name'])) {
+                $feedback = 'image has uploaded successfully.';
+            } else {
+                $feedback = 'Some problem occurred, please try again.';
+            }
+
+            return $feedback;
+            // }
+        }
+        */
+
+        public static function uploadImage()
+        {
+            // Get image name
+            $image = htmlspecialchars($_FILES['image']['name']);
+            // Get description text & filter
+            $description = htmlspecialchars($_POST['description']);
+            $filter = htmlspecialchars($_POST['filter']);
+
+            $id = User::getId(); // id ophalen uit db
+
+            //$filter = 'test';
+            // image image directory
+            //$target = 'postImages/'.basename($image);
+            $conn = Db::getInstance();
+            $statement = $conn->prepare('INSERT INTO posts (image, description, filter, user_id) VALUES (:image, :description, :filter, :user_id)');
+            $statement->bindParam(':image', $image);
+            $statement->bindParam(':description', $description);
+            $statement->bindParam(':filter', $filter);
+            $statement->bindParam(':user_id', $id); // from session // MY ID
+            $statement->execute();
+            //var_dump($statement);
+
+            return $statement;
+        }
+
         // FEATURE 13
         public static function getTimeNow()
         {
@@ -26,16 +90,6 @@
 
             return $result;
         }
-
-        // setters ///////////////////////////////////////////////
-        public function setTime($time)
-        {
-            $this->time = $time;
-
-            return $this;
-        }
-
-        // functions ///////////////////////////////////////////////
 
         public static function getAll()
         {
@@ -178,4 +232,3 @@
             return $timeStatus;
         }
     }
-?> 
