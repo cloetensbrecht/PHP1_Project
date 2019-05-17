@@ -42,20 +42,18 @@ if (isset($_POST['submit'])) {
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <?php include_once 'inc/head.inc.php'; // link naar CSS bootstrap , CSS filter & jquery?>
     <title>Document</title>
 </head>
 
 <body>
     <form method="post" action="upload.php" enctype="multipart/form-data" id="uploadForm">
         <div>
-        <input type="file" name="image" id="image" />
+        <input type="file" name="image" id="image" required />
         </div> 
         <div class="description">
             <p>Description</p>
-            <input type="text" id="description" name="description" style="width: 400px; padding-bottom: 50px;">
+            <input type="text" id="description" name="description" style="width: 400px; padding-bottom: 50px;" required>
         </div>
         <!-- FEATURE 16 filter op foto met CSSGram  -->
     <div class="filter">
