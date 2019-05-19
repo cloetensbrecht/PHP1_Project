@@ -6,13 +6,14 @@
     font-family: Helvetica, sans-serif;
 }
 
-body {
+
+main {
     margin: 20px auto;
     display: -ms-flexbox;
     display: flex;
     -ms-flex-align: center;
     align-items: center;
-    /*text-align: center;*/
+    /*text-align: center;* /
 }
 
 
