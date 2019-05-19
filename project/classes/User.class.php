@@ -1,6 +1,6 @@
 <?php
 
-    require_once 'bootstrap.php';  // import Classes
+    require_once __DIR__.'/../bootstrap.php';  // import Classes
     class User
     {
         // variabelen ///////////////////////////////////////////////
@@ -10,12 +10,12 @@
         private $id;
         private $CurrentPassword;
 
-        private $firstName;
-        private $lastName;
+        private $firstName; // private $firstName;
+        private $lastName; //private $lastName;
         private $username;
         private $mobile;
         private $bio;
-        private $profilePicture;
+        private $profilePicture; // private $avatar;
 
         // setters ///////////////////////////////////////////////
         public function setEmail($email)
@@ -28,13 +28,6 @@
         public function setPassword($password)
         {
             $this->password = $password;
-
-            return $this;
-        }
-
-        public function setPasswordConfirmation($passwordConfirmation)
-        {
-            $this->passwordConfirmation = $passwordConfirmation;
 
             return $this;
         }
@@ -107,11 +100,6 @@
             return $this->password;
         }
 
-        public function getPasswordConfirmation()
-        {
-            return $this->passwordConfirmation;
-        }
-
         public function getCurrentPassword()
         {
             return $this->CurrentPassword;
@@ -150,7 +138,7 @@
 
         // functions ///////////////////////////////////////////////
 
-        // HOE ID OPHALEN // $id = self::getId();
+        // HOE ID OPHALEN // $id = self::getId(); //$id = User::getId();
         public static function getId()
         {
             $conn = Db::getInstance();
@@ -164,20 +152,57 @@
             return $id;
         }
 
+        /*
+                public function register()
+                {
+                    $password = Security::hash($this->password);
+                    try {
+                        $conn = Db::getInstance();
+                        $statement = $conn->prepare('INSERT INTO users (email, password) VALUE (:email, :password);');
+                        $statement->bindParam(':email', $this->email);
+                        $statement->bindParam(':password', $password);
+                        $result = $statement->execute();
+
+                        return $result;
+                    } catch (Throwable $t) {
+                        return $t;
+                    }
+                }
+        */
+
         public function register()
         {
-            $password = Security::hash($this->password);
+            $options = ['cost' => 12];
+            $password = password_hash($this->password, PASSWORD_DEFAULT, $options);
+
             try {
                 $conn = Db::getInstance();
-                $statement = $conn->prepare('INSERT INTO users (email, password) VALUE (:email, :password);');
+
+                //$statement = $conn->prepare('INSERT into users (email,firstName,lastName,username,password) VALUES (:email,:firstName,:lastName,:username,:password)');
+                $statement = $conn->prepare('INSERT into users (email,firstName,lastName,username,password) VALUES (:email,:firstName,:lastName,:username,:password)');
                 $statement->bindParam(':email', $this->email);
+                $statement->bindParam(':firstName', $this->firstName);
+                $statement->bindParam(':lastName', $this->lastName);
+                $statement->bindParam(':username', $this->username);
                 $statement->bindParam(':password', $password);
                 $result = $statement->execute();
 
+                //echo $this->email.$this->password.$this->firstName.$this->lastName.$this->username;
+
                 return $result;
+                echo 'SAVED';
             } catch (Throwable $t) {
-                return $t;
+                return false;
             }
+        }
+
+        public function loginToIndex()
+        {
+            if (!isset($_SESSION)) {
+                session_start();
+            }
+            $_SESSION['id'] = $this->id;
+            header('Location: index.php');
         }
 
         // maybe add some code to slow down bruit force attacks  ?
@@ -287,29 +312,39 @@
         public static function follow($friendid)
         {
             $conn = Db::getInstance(); // db connection
-            $result = $conn->prepare('insert into friends (user_id, friendid) values (:user_id, :user_id_friend)');
-            // statment prepare en werken met placeholder / Veilig 'binden' aan het statement > om SQL te voorkomen.
-            $result->bindParam(':user_id', $user_id); // from session
+            $result = $conn->prepare('INSERT into friends (user_id, user_id_friend) values (:user_id, :user_id_friend)');
+            // ! PROTECT to SQL injection // statment prepare en werken met placeholder / Veilig 'binden' aan het statement > om SQL te voorkomen.
+            $result->bindParam(':user_id', $id); // from session // MY ID
             $result->bindParam(':user_id_friend', $friendid); //$user_id_friend
-
             return $result->execute();
         }
 
         //FEATURE 12 follow
-        public static function isFollowing($friendid, $userid)
+        public static function isFollowing($friendid, $userid) //$friendid, $userid OF $id
         {
             $conn = Db::getInstance(); // db connection
-            $result = $conn->prepare('select* from friends where user_id = :user_id AND user_id_friend = :user_id_friend');
+            $result = $conn->prepare('select * from friends where user_id = :user_id AND user_id_friend = :user_id_friend');
             // statment prepare en werken met placeholder / Veilig 'binden' aan het statement > om SQL te voorkomen.
             $result->bindParam(':user_id', $userid); // from session
             $result->bindParam(':user_id_friend', $friendid); //$user_id_friend
             $result->execute();
             //var_dump($result->rowCount());
 
+            $check = $result->fetch();
+
+            if ($check) {
+                return  true;
+            } else {
+                return  false;
+            }
+
+            /*
+
             if ($result->rowCount() === 0) {
                 return false; // niet volgen
             } else {
                 return true; // al volgend
             }
+            */
         }
     }
