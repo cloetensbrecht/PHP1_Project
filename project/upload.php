@@ -8,6 +8,7 @@ require_once 'bootstrap.php';
 
   if (isset($_POST['submit']) && !empty($_FILES['image']['name'])) {
       $feedbackUpload = Post::feedbackUpload();
+      $feedbackUploadColor = Post::feedbackUploadColor();
       //echo Post::feedbackUpload();
   }
   if (isset($_POST['submit'])) {
@@ -50,7 +51,6 @@ if (isset($_POST['submit'])) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <?php include_once 'inc/head.inc.php'; // link naar CSS bootstrap , CSS filter & jquery?>
     <title>Upload</title>
@@ -68,7 +68,6 @@ if (isset($_POST['submit'])) {
             align-items: center;
             padding-top: 40px;
             padding-bottom: 40px;
-            background-color: #f5f5f5;
         }
 
         .form-upload {
@@ -164,14 +163,13 @@ if (isset($_POST['submit'])) {
                         </select>
                     </div>
                     <div>
-                        <input type="submit" class="btn btn-outline-secondary" name="submit" value="Upload" />
+                        <input type="submit" class="btn btn-outline-success" name="submit" value="Upload" />
                     </div>
 
                     <div>
-                        <p><?php
-                if (isset($feedbackUpload)) {
-                    echo $feedbackUpload;
-                }?></p>
+                        <p <?php  if (isset($feedbackUpload)) : echo $feedbackUploadColor; ?> >
+                        <?php echo $feedbackUpload;
+                        endif; ?></p>
                     </div>
                 </form>
 

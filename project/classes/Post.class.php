@@ -35,21 +35,21 @@
             // }
         }
 
-        /* COLOR OF THE MESSAGE
+        // COLOR OF THE MESSAGE
 
         public static function feedbackUploadColor()
         {
             //if (isset($_POST['submit']) && !empty($_FILES['image']['name'])) {
-            if (move_uploaded_file($_FILES['image']['tmp_name'], 'postImages/'.$_FILES['image']['name'])) {
-                $feedback = 'image has uploaded successfully.';
+            // if (move_uploaded_file($_FILES['image']['tmp_name'], 'postImages/'.$_FILES['image']['name'])) {
+            if ($feedback = 'image has uploaded successfully.') {
+                $feedbackColor = 'class="alert alert-success" role="alert"';
             } else {
-                $feedback = 'Some problem occurred, please try again.';
+                $feedbackColor = 'class="alert alert-danger" role="alert"';
             }
 
-            return $feedback;
+            return $feedbackColor;
             // }
         }
-        */
 
         public static function uploadImage()
         {
