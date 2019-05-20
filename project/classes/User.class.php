@@ -336,6 +336,12 @@
                 return false;
             }
 
+            /* KORT
+            $id = self::getId();
+            if (!$id) return false;
+            if (!self::exists($friendid)) return false;
+            if (self::isFollowing($friendid, $userid)) return false;
+            */
             $conn = Db::getInstance(); // db connection
             $result = $conn->prepare('INSERT into friends (user_id, user_id_friend) values (:user_id, :user_id_friend)');
             // ! PROTECT to SQL injection // statment prepare en werken met placeholder / Veilig 'binden' aan het statement > om SQL te voorkomen.
