@@ -75,45 +75,30 @@
 <script src="script.js"></script>
 
   <script>
-    /* FEATURE 12 klikken op  username voor detailpagina + “follow” */
-    //	Wat is je empty state als je nog geen vrienden volgt? Bedenk een goede oplossing
-
-    //$(document).ready(function () {
-      //console.log("jquery works");
+      let isSubmitting = false;
       $(".follow").on("click", function (e) {
-        let id = ($(this).data('id')); // = data-id="<?php echo $friendid; ?>" in a
-        let button = $(this);
-        console.log(id); // MIJN id 
-
-        // AJAX CALL > post request > ajax/follow.php
-        // ! geen user id meegeven aan client side // wat niet gegeven wordt kan ook niet gemanipuleerd worden.
+        if (isSubmitting) return;
         
+        isSubmitting = true;
+        const button = $(this);
+          
         $.ajax({
             method: "POST",
             url: "ajax/follow.php",
             dataType: "json",
             data: {
-              id: id
+              id: button.data('id')
             }
           })
           .done(function (res) {
-            console.log(res.status); 
+            isSubmitting = false;
+            
             if (res.status === "succes") {
-              button.text('Unfollow'); // text in de knop 
+              button.text('Unfollow');
             }
-
-            //alert("Data Saved" + msg);
           });
-
-        /*
-        .done(function(msg){
-          alert("Data Saved" + msg);
-        });
-        */
-
         e.preventDefault();
       });
-   // });
   </script>
 
 <?php include_once 'inc/bootstrapJs.inc.php'; // link naar JS bootstrap?>
