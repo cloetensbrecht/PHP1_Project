@@ -28,4 +28,4 @@ function unFollow() {
   ];
 }
 
-exit(json_encode(unfollow()));
+exit(json_encode(unFollow()));
