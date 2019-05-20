@@ -151,7 +151,7 @@
             return $id; // geeft id nr of false indien niet gevonden
         }
 
-        public static function exists($userId) // userid
+        public static function exists($userId) // userId
         {
             $conn = Db::getInstance();
             $result = $conn->prepare('SELECT id FROM users WHERE id= :userId');
@@ -318,47 +318,47 @@
             return $data;
         }
 
-        // if (!self::exists($friendid)) return false; // check friendid
-        // if (!self::exists($userid)) return false; // voor de user id te checken
+        // if (!self::exists($friendId)) return false; // check friendId
+        // if (!self::exists($userId)) return false; // voor de user id te checken
 
         //FEATURE 12 follow
-        public static function follow($friendid)
+        public static function follow($friendId)
         {
-            $id = self::getId();
+            $userId = self::getId();
 
-            if (!$id) {
+            if (!$userId) {
                 return false;
             }
-            if (!self::exists($friendid)) {
+            if (!self::exists($friendId)) {
                 return false;
             }
-            if (self::isFollowing($friendid, $id)) {
+            if (self::isFollowing($friendId, $userId)) {
                 return false;
             }
 
             /* KORT
             $id = self::getId();                                    if (!$id) return false;
-            if (!self::exists($friendid)) return false;             if (self::isFollowing($friendid, $userid)) return false; */
+            if (!self::exists($friendId)) return false;             if (self::isFollowing($friendId, $userId)) return false; */
 
             $conn = Db::getInstance(); // db connection
             $result = $conn->prepare('INSERT into friends (user_id, user_id_friend) 
             values (:user_id, :user_id_friend)');
             // ! PROTECT to SQL injection // statment prepare en werken met placeholder
             // Veilig 'binden' aan het statement > om SQL te voorkomen.
-            $result->bindParam(':user_id', $id); // from session // MY ID
-            $result->bindParam(':user_id_friend', $friendid); //$user_id_friend
+            $result->bindParam(':user_id', $userId); // from session // MY ID
+            $result->bindParam(':user_id_friend', $friendId); //$user_id_friend
 
             return $result->execute();
         }
 
         //FEATURE 12 follow
-        public static function isFollowing($friendid, $userid) //$friendid, $userid OF $id
+        public static function isFollowing($friendId, $userId) //$friendId, $userId OF $id
         {
             $conn = Db::getInstance(); // db connection
             $result = $conn->prepare('select * from friends where user_id = :user_id AND user_id_friend = :user_id_friend');
             // statment prepare en werken met placeholder / Veilig 'binden' aan het statement > om SQL te voorkomen.
-            $result->bindParam(':user_id', $userid); // from session
-            $result->bindParam(':user_id_friend', $friendid); //$user_id_friend
+            $result->bindParam(':user_id', $userId); // from session
+            $result->bindParam(':user_id_friend', $friendId); //$user_id_friend
             $result->execute();
             //var_dump($result->rowCount());
 
