@@ -12,14 +12,14 @@ function unFollow()
     }
 
     $friendId = $_POST['id'];
-    if (!User::isFollowing($friendId)) {
+    if (!User::isFollowing($friendId, $userId)) {
         return [
       'status' => 'error',
       'message' => 'You are not following this friend',
     ];
     }
 
-    if (!User::unFollow($friendId)) {
+    if (!User::unFollow($friendId, $userId)) {
         return [
       'status' => 'error',
       'message' => 'You are still following this friend',
