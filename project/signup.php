@@ -8,6 +8,7 @@ if (!empty($_POST)) {
         //if (SafetyCheck::isValidEmail($_POST['email'])) {
         $user = new User();
         //htmlspecialchars();
+
         $email = htmlspecialchars($_POST['email']);
         $password = htmlspecialchars($_POST['password']);
         $firstName = htmlspecialchars($_POST['firstName']);
@@ -37,11 +38,8 @@ if (!empty($_POST)) {
         $error = 'fout'; // $user->canLogin();
     }
 }
-
-?>
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html lang="en">
-
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -51,7 +49,6 @@ if (!empty($_POST)) {
 	<title>Sign up </title>
 	<link rel="stylesheet" href="css/login.css">
 </head>
-
 <body>
 	<div class="container InspirationHunter--register">
 		<div class="form form--login">
