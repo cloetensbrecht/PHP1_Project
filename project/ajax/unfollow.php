@@ -10,7 +10,7 @@ function unFollow() {
     ];
 
   $friendId = $_POST['id'];
-  if (!User:isFollowing($friendId))
+  if (!User::isFollowing($friendId))
     return [
       'status' => 'error',
       'message' => 'You are not following this friend'
