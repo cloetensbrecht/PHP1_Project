@@ -65,10 +65,10 @@
   </div> <!-- /container -->
 
   <a href="#" class="btn follow" id="btnFollow" data-id="<?php echo $friendid; ?>">&#10084;
-    <?php $following = 'Follow'; echo $following === true ? 'Unfollow' : 'Follow'; //LEEG Follow?> 
-    </a>
+    <?php // $following = 'Follow'; echo $following === true ? 'Unfollow' : 'Follow'; //LEEG Follow?> 
+    <?php echo $following ? 'Unfollow' : 'Follow'; ?>
+  </a>
 
-  
   <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"
     integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
