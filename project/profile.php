@@ -75,6 +75,7 @@
 <script src="script.js"></script>
 
   <script>
+      let isFollowing = <?php echo $following ? 'true' : 'false'; ?>
       let isSubmitting = false;
       $(".follow").on("click", function (e) {
         if (isSubmitting) return;
@@ -84,7 +85,7 @@
           
         $.ajax({
             method: "POST",
-            url: "ajax/follow.php",
+            url: isFollowing ? "ajax/unfollow.php" : "ajax/follow.php",
             dataType: "json",
             data: {
               id: button.data('id')
@@ -94,7 +95,12 @@
             isSubmitting = false;
             
             if (res.status === "succes") {
-              button.text('Unfollow');
+                if (isFollowing) 
+                    button.text('Unfollow');
+                else
+                    button.text('Follow');
+                
+                isFollowing!= isFollowing
             }
           });
         e.preventDefault();
