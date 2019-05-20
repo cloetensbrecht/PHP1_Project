@@ -87,6 +87,7 @@
             method: "POST",
             url: isFollowing ? "ajax/unfollow.php" : "ajax/follow.php",
             dataType: "json",
+            async: false,
             data: {
               id: button.data('id')
             }
