@@ -310,6 +310,9 @@
         //FEATURE 12 follow
         public static function follow($friendid)
         {
+            $id = self::getId();
+            if (!$id) return false; // eventuele andere validatie om de result van getId() te controleren wanneer men niet aangemeld zou zijn
+            
             $conn = Db::getInstance(); // db connection
             $result = $conn->prepare('INSERT into friends (user_id, user_id_friend) values (:user_id, :user_id_friend)');
             // ! PROTECT to SQL injection // statment prepare en werken met placeholder / Veilig 'binden' aan het statement > om SQL te voorkomen.
