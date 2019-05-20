@@ -151,13 +151,16 @@
             return $id; // geeft id nr of false indien niet gevonden
         }
 
-        public static function exists($id) // userid
+        public static function exists($userId) // userid
         {
-            if ($check) {
-                return  true; // als userid wel bestaat
-            } else {
-                return  false; // als userid niet bestaat
+            $conn = Db::getInstance();
+            $result = $conn->prepare('SELECT id FROM users WHERE id= :userId');
+            $result->bindParam(':userId', $userId);
+            $result->execute();
+            if ($result->fetch(PDO::FETCH_COLUMN)) {
+                return true;
             }
+            return false;
         }
 
         /*
