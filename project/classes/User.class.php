@@ -151,6 +151,15 @@
             return $id; // geeft id nr of false indien niet gevonden
         }
 
+        public static function exists($id) // userid
+        {
+            if ($check) {
+                return  true; // als userid wel bestaat
+            } else {
+                return  false; // als userid niet bestaat
+            }
+        }
+
         /*
                 public function register()
                 {
@@ -241,9 +250,7 @@
                     return false;
                 }
             } else {
-                $error = 'Your email is invalid.';
-
-                return $error;
+                return 'Your email is invalid.';
             }
         }
 
@@ -262,10 +269,10 @@
             if (password_verify($CurrentPassword, $result)) {
                 //echo 'WORKS check ✅';
 
-                return $validPw = true;
+                return true;
             } else {
                 //$error = 'Something went wrong, your password are wrong. Try again.';
-                return $validPw = false;
+                return false;
             }
             //} catch (Throwable $t) {return $validPw = false;}
         }

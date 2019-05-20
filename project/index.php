@@ -5,7 +5,8 @@
     }
     // id ophalen uit db
     $id = User::getId();
-    /*if (!$id) { // als de id == false > dan naar login.php
+    /*
+    if (!$id) { // als de id == false > dan naar login.php
         header('Location: login.php');
         exit;
     }
