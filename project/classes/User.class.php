@@ -142,13 +142,13 @@
         {
             $conn = Db::getInstance();
             // id ophalen uit db
-            $emailCheck = $_SESSION['id'];
+            $emailCheck = $_SESSION['id']; // geeft mail
             $result = $conn->prepare('SELECT id FROM users WHERE email= :email');
             $result->bindParam(':email', $emailCheck);
             $result->execute();
             $id = $result->fetch(PDO::FETCH_COLUMN);
 
-            return $id;
+            return $id; // geeft id nr
         }
 
         /*
@@ -311,9 +311,10 @@
         public static function follow($friendid)
         {
             $id = self::getId();
-            if (!$id) {
-                return false;
+            /*if (!$id) {
+                return false; // indien geen
             } // eventuele andere validatie om de result van getId() te controleren wanneer je niet aangemeld zou zijn
+            */
             $conn = Db::getInstance(); // db connection
             $result = $conn->prepare('INSERT into friends (user_id, user_id_friend) values (:user_id, :user_id_friend)');
             // ! PROTECT to SQL injection // statment prepare en werken met placeholder / Veilig 'binden' aan het statement > om SQL te voorkomen.
