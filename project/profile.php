@@ -2,6 +2,7 @@
     require_once 'bootstrap.php';
 
     $id = User::getId();
+    // test // var_dump($id); exit;
 
     $friendid = !empty($_GET['id']) ? $_GET['id'] : null;
 

@@ -314,10 +314,17 @@
             return $data;
         }
 
+        // if (!self::exists($friendid)) return false; // check friendid
+        // if (!self::exists($userid)) return false; // voor de user id te checken
+
         //FEATURE 12 follow
         public static function follow($friendid)
         {
+            if (!self::exists($friendid)) { // check friendid
+                return false;
+            }
             $id = self::getId();
+
             if (!$id) {
                 return false; // indien geen
             } // eventuele andere validatie om de result van getId() te controleren wanneer je niet aangemeld zou zijn
