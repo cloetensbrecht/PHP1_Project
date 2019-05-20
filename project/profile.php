@@ -1,19 +1,19 @@
 <?php
     require_once 'bootstrap.php';
-    //require_once '././classes/User.class.php';
-    //require_once __DIR__.DIRECTORY_SEPARATOR.'classes/User.class.php';
-
-    // class user laden
-    User::isFollowing(1, 1); // input halen uit session en url
 
     $id = null;
     if (!empty($_GET['id'])) {
-        $id = $_REQUEST['id'];
+        $friendid = $_REQUEST['id'];
     }
+    $id = User::getId(); // $id = MY ID
+
+    $following = User::isFollowing($friendid, $id); // input halen uit session en url
+    var_dump(User::isFollowing($friendid, $id));
+
     if (null == $id) {
         header('Location: index.php');
     } else {
-        $data = User::readProfileData($id);
+        $data = User::readProfileData($friendid);
     }
 ?>
 <!DOCTYPE html>
@@ -67,31 +67,40 @@
 
   </div> <!-- /container -->
 
-  <a href="#" class="btn follow" id="btnFollow" data-friendid="1">&#10084;
-    <?php $following = 'Follow'; echo $following === true ? 'Unfollow' : 'Follow'; //LEEG Follow?> </a>
+  <a href="#" class="btn follow" id="btnFollow" data-id="<?php echo $friendid; ?>">&#10084;
+    <?php $following = 'Follow'; echo $following === true ? 'Unfollow' : 'Follow'; //LEEG Follow?> 
+    </a>
 
   
+  <!-- jquery -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="script.js"></script>
+
   <script>
     /* FEATURE 12 klikken op  username voor detailpagina + “follow” */
     //	Wat is je empty state als je nog geen vrienden volgt? Bedenk een goede oplossing
 
-    $(document).ready(function () {
+    //$(document).ready(function () {
       //console.log("jquery works");
       $(".follow").on("click", function (e) {
-        var friendid = ($(this).data('friendid'));
+        let id = ($(this).data('id')); // = data-id="<?php echo $friendid; ?>" in a
+        let button = $(this);
+        console.log(id); // MIJN id 
 
         // AJAX CALL > post request > ajax/follow.php
         // ! geen user id meegeven aan client side // wat niet gegeven wordt kan ook niet gemanipuleerd worden.
+        
         $.ajax({
             method: "POST",
             url: "ajax/follow.php",
-            dataType: "json";
+            dataType: "json",
             data: {
-              friendid: friendid
+              id: id
             }
           })
           .done(function (res) {
-            console.log(res.status);
+            console.log(res.status); 
             if (res.status === "succes") {
               button.text('Unfollow'); // text in de knop 
             }
@@ -107,7 +116,7 @@
 
         e.preventDefault();
       });
-    });
+   // });
   </script>
 
 <?php include_once 'inc/bootstrapJs.inc.php'; // link naar JS bootstrap?>

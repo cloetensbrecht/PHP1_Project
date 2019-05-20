@@ -5,11 +5,11 @@
 
 // https://vimeo.com/showcase/5967979/video/334691780
 
-require_once '/../bootstrap.php';  // import Classes
+require_once __DIR__.'/../bootstrap.php';  // import Classes
 //require_once '../classes/User.class.php';
 //require_once 'bootstrap.php';
 
-$friendid = $_POST[friendid];
+$friendid = $_POST[id]; // komt van front-end
 if (User::follow($friendid)) {
     $res = [
         'status' => 'succes',
@@ -22,4 +22,4 @@ if (User::follow($friendid)) {
     ];
 }
 
-echo json_decode($res); //json terug geven als formaat
+echo json_encode($res); //json terug geven als formaat
