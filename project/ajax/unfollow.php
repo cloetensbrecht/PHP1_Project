@@ -4,6 +4,14 @@ require_once __DIR__.'/../bootstrap.php';
 
 function unFollow()
 {
+    $userId = User::getId();
+    if (!$userId) {
+        return [
+     'status' => 'error',
+     'message' => 'You are not logged in',
+    ];
+    }
+    
     if (empty($_POST['id'])) {
         return [
      'status' => 'error',
