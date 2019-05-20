@@ -101,7 +101,7 @@
                 console.log("succes" ,isFollowing);
                 console.log('isFollowing:', isFollowing);
                 button.text(isFollowing ? 'Unfollow' : 'Follow');
-                isFollowing!= isFollowing
+                isFollowing = ! isFollowing
               
             }
           });
