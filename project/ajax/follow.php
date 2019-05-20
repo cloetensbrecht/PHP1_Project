@@ -10,7 +10,7 @@ require_once __DIR__.'/../bootstrap.php';  // import Classes
 $friendId = $_POST['id']; // komt van front-end
 if (User::follow($friendId)) {
     $res = [
-        'status' => 'succes',
+        'status' => 'success',
         'message' => 'You are following',
     ];
 } else {

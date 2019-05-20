@@ -94,7 +94,7 @@
           .done(function (res) {
             isSubmitting = false;
             
-            if (res.status === "succes") {
+            if (res.status == "success") {
                 $('#btnFollow').text(isFollowing ? 'Unfollow' : 'Follow');
                 isFollowing!= isFollowing
             }
