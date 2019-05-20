@@ -102,7 +102,7 @@
                 console.log('isFollowing:', isFollowing);
                 button.text(isFollowing ? 'Unfollow' : 'Follow');
                 isFollowing!= isFollowing
-              
+                console.log('Nieuwe isFollowing:', isFollowing);
             }
           });
         e.preventDefault();
