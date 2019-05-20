@@ -19,7 +19,7 @@ function unFollow()
     ];
     }
 
-    if (!User::unFollow($friendId, $userId)) {
+    if (!User::unFollow($friendId)) {
         return [
       'status' => 'error',
       'message' => 'You are still following this friend',
