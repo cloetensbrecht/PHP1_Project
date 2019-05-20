@@ -64,7 +64,7 @@
 
   </div> <!-- /container -->
 
-  <a href="#" class="btn follow" id="btnFollow" data-id="<?php echo $friendid; ?>">&#10084;
+  <a href="#" class="btn follow" id="btnFollow" data-id="<?php echo $friendid; ?>">
     <?php // $following = 'Follow'; echo $following === true ? 'Unfollow' : 'Follow'; //LEEG Follow?> 
     <?php echo $following ? 'Unfollow' : 'Follow'; ?>
   </a>
