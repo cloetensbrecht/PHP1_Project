@@ -9,7 +9,7 @@ require_once __DIR__.'/../bootstrap.php';  // import Classes
 //require_once '../classes/User.class.php';
 //require_once 'bootstrap.php';
 
-$friendid = $_POST[id]; // komt van front-end
+$friendid = $_POST["id"]; // komt van front-end
 if (User::follow($friendid)) {
     $res = [
         'status' => 'succes',
