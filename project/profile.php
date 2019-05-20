@@ -88,7 +88,7 @@
             dataType: "json",
             async: false,
             data: {
-              id: $(this).data('id')
+              id: $('#btnFollow').data('id')
             }
           })
           .done(function (res) {
