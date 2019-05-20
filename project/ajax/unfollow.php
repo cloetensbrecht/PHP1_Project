@@ -2,29 +2,33 @@
 
 require_once __DIR__.'/../bootstrap.php';
 
-function unFollow() {
-  if (empty($_POST['id']))
-    return [
+function unFollow()
+{
+    if (empty($_POST['id'])) {
+        return [
      'status' => 'error',
      'message' => 'The friend id is missing',
     ];
+    }
 
-  $friendId = $_POST['id'];
-  if (!User::isFollowing($friendId))
-    return [
+    $friendId = $_POST['id'];
+    if (!User::isFollowing($friendId)) {
+        return [
       'status' => 'error',
-      'message' => 'You are not following this friend'
+      'message' => 'You are not following this friend',
     ];
+    }
 
-  if (!User::unFollow($friendId))
-    return [
+    if (!User::unFollow($friendId)) {
+        return [
       'status' => 'error',
-      'message' => 'You are still following this friend'
+      'message' => 'You are still following this friend',
     ];
-  
-  return [
+    }
+
+    return [
     'status' => 'success',
-    'message' => 'You unfollowed this friend'
+    'message' => 'You unfollowed this friend',
   ];
 }
 
