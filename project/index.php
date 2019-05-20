@@ -5,7 +5,10 @@
     }
     // id ophalen uit db
     $id = User::getId();
-
+    if (!$id) { // als de id == false > dan naar login.php
+        header('Location: login.php');
+        exit;
+    }
     /* FEATURE 5 - laatste 20 posts  */
     // overzicht geuploade img
     $posts = Post::getAll();

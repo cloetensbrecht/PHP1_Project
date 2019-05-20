@@ -2,13 +2,13 @@
     require_once 'bootstrap.php';
 
     $id = User::getId();
+
     $friendid = !empty($_GET['id']) ? $_GET['id'] : null;
 
     if (!$id || !$friendid) {
         header('Location: index.php');
         exit;
     }
-
     $following = User::isFollowing($friendid, $id); // input halen uit session en url
     $data = User::readProfileData($friendid);
 ?>
