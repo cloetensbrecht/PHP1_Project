@@ -97,8 +97,6 @@
             if (res.status == "success") {
                 isFollowing = !isFollowing;
                 button.text(isFollowing ? 'Unfollow' : 'Follow');
-                isFollowing = ! isFollowing
-             
             }
           });
         e.preventDefault();
