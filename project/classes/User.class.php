@@ -350,6 +350,27 @@
 
             return $result->execute();
         }
+        
+        public statuc function unFollow($friendId)
+        {
+            $userId = self::getId();
+            
+            if (!$userId) {
+                return false;
+            }
+            if (!self::exists($friendId)) {
+                return false;
+            }
+            if (!self::isFollowing($friendId, $userId)) {
+                return false;
+            }
+            
+            $conn = Db::getInstance();
+            $result = $conn->prepare('DELETE from friends where user_id = :user_id AND user_id_friend = :user_id_friend');
+            $result->bindParam(':user_id', $userId); // from session
+            $result->bindParam(':user_id_friend', $friendId); //$user_id_friend
+            return $result->execute();
+        }
 
         //FEATURE 12 follow
         public static function isFollowing($friendId, $userId) //$friendId, $userId OF $id
