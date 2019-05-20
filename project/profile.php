@@ -1,20 +1,16 @@
 <?php
     require_once 'bootstrap.php';
 
-    $id = null;
-    $id = User::getId(); // $id = MY ID
-    if (!empty($id)) {
-        $friendid = $_REQUEST['id'];
+    $id = User::getId();
+    $friendid = !empty($_GET['id']) ? $_GET['id'] : null;
+
+    if (!$id || !$friendid) {
+        header('Location: index.php');
+        exit;
     }
 
     $following = User::isFollowing($friendid, $id); // input halen uit session en url
-    var_dump(User::isFollowing($friendid, $id));
-
-    if (null == $id) {
-        header('Location: index.php');
-    } else {
-        $data = User::readProfileData($friendid);
-    }
+    $data = User::readProfileData($friendid);
 ?>
 <!DOCTYPE html>
 <html lang="en">
