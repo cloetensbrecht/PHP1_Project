@@ -79,7 +79,7 @@
       let isSubmitting = false;
       $(".follow").on("click", function (e) {
         if (isSubmitting) return;
-        
+        console.log("button" ,isFollowing);
         isSubmitting = true;
         const button = $(this);
           
@@ -87,17 +87,22 @@
             method: "POST",
             url: isFollowing ? "ajax/unfollow.php" : "ajax/follow.php",
             dataType: "json",
-            async: false,
+            //async: false,
             data: {
               id: button.data('id')
             }
           })
           .done(function (res) {
             isSubmitting = false;
+            console.log("done" ,isFollowing);
             
             if (res.status == "success") {
+                console.log('We zijn done');
+                console.log("succes" ,isFollowing);
+                console.log('isFollowing:', isFollowing);
                 button.text(isFollowing ? 'Unfollow' : 'Follow');
                 isFollowing!= isFollowing
+              
             }
           });
         e.preventDefault();
