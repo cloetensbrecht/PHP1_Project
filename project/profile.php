@@ -79,7 +79,6 @@
       let isSubmitting = false;
       $(".follow").on("click", function (e) {
         if (isSubmitting) return;
-        console.log("button" ,isFollowing);
         isSubmitting = true;
         const button = $(this);
           
@@ -94,15 +93,10 @@
           })
           .done(function (res) {
             isSubmitting = false;
-            console.log("done" ,isFollowing);
             
             if (res.status == "success") {
-                console.log('We zijn done');
-                console.log("succes" ,isFollowing);
-                console.log('isFollowing:', isFollowing);
+                isFollowing = !isFollowing;
                 button.text(isFollowing ? 'Unfollow' : 'Follow');
-                isFollowing!= isFollowing
-                console.log('Nieuwe isFollowing:', isFollowing);
             }
           });
         e.preventDefault();
