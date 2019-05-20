@@ -6,11 +6,9 @@
 // https://vimeo.com/showcase/5967979/video/334691780
 
 require_once __DIR__.'/../bootstrap.php';  // import Classes
-//require_once '../classes/User.class.php';
-//require_once 'bootstrap.php';
 
 $friendid = $_POST['id']; // komt van front-end
-if (User::follow($friendid)) {
+if (User::follow($friendId)) {
     $res = [
         'status' => 'succes',
         'message' => 'You are following',
