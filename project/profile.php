@@ -2,10 +2,10 @@
     require_once 'bootstrap.php';
 
     $id = null;
-    if (!empty($_GET['id'])) {
+    $id = User::getId(); // $id = MY ID
+    if (!empty($id)) {
         $friendid = $_REQUEST['id'];
     }
-    $id = User::getId(); // $id = MY ID
 
     $following = User::isFollowing($friendid, $id); // input halen uit session en url
     var_dump(User::isFollowing($friendid, $id));
