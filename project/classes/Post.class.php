@@ -128,7 +128,6 @@
             WHERE users.id = posts.user_id
             AND users.id = friends.user_id_friend
             ORDER BY posts.time DESC'); //LIMIT $row, $rowperpage'
-            $result->bindParam(':id', $id);
             $result->execute();
 
             return $resultExplore = $result->fetchAll(PDO::FETCH_ASSOC);
