@@ -75,7 +75,7 @@
 <script src="script.js"></script>
 
   <script>
-      let isFollowing = <?php echo $following ? 'true' : 'false'; ?>
+      let isFollowing = <?php echo $following ? 'true' : 'false'; ?>;
       let isSubmitting = false;
       $(".follow").on("click", function (e) {
         if (isSubmitting) return;
