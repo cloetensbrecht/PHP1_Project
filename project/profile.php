@@ -81,6 +81,7 @@
         if (isSubmitting) return;
         
         isSubmitting = true;
+        const button = $(this);
           
         $.ajax({
             method: "POST",
@@ -88,14 +89,14 @@
             dataType: "json",
             async: false,
             data: {
-              id: $('#btnFollow').data('id')
+              id: button.data('id')
             }
           })
           .done(function (res) {
             isSubmitting = false;
             
             if (res.status == "success") {
-                $('#btnFollow').text(isFollowing ? 'Unfollow' : 'Follow');
+                button.text(isFollowing ? 'Unfollow' : 'Follow');
                 isFollowing!= isFollowing
             }
           });
