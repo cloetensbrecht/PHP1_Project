@@ -160,6 +160,7 @@
             if ($result->fetch(PDO::FETCH_COLUMN)) {
                 return true;
             }
+
             return false;
         }
 
