@@ -95,11 +95,7 @@
             isSubmitting = false;
             
             if (res.status === "succes") {
-                if (isFollowing) 
-                    button.text('Unfollow');
-                else
-                    button.text('Follow');
-                
+                button.text(isFollowing ? 'Unfollow' : 'Follow');
                 isFollowing!= isFollowing
             }
           });
